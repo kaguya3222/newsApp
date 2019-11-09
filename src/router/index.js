@@ -6,7 +6,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    component: () => import("../views/MainLayout.vue")
+    name: "Home",
+    meta: { layout: "main" }
   }
 ];
 
