@@ -8,6 +8,17 @@ const routes = [
     path: "/",
     name: "Home",
     meta: { layout: "main" }
+  },
+  {
+    path: "/reg",
+    name: "Reg",
+    meta: { layout: "main" },
+    component: () => import("../components/registration/Reg.vue")
+  },
+  {
+    path: "/exit",
+    name: "Exit",
+    meta: { layout: "main" },
   }
 ];
 
