@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/exit",
     name: "Exit",
-    meta: { layout: "main" },
+    meta: { layout: "main" }
   }
 ];
 
