@@ -3,12 +3,12 @@
     class="d-flex flex-column justify-center align-center full-height full-width"
   >
     <v-container class="d-flex flex-column justify-center align-center">
-      <app-input
+      <reg-input
         v-for="(field, index) in regInfo"
         :key="index"
         :field="field"
         :index="index"
-      ></app-input>
+      ></reg-input>
       <v-btn
         color="indigo"
         :disabled="isDisabled"
@@ -89,7 +89,7 @@ export default {
     }
   },
   components: {
-    "app-input": Input
-  },
+    "reg-input": Input
+  }
 };
 </script>

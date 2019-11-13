@@ -19,6 +19,12 @@ const routes = [
     path: "/exit",
     name: "Exit",
     meta: { layout: "main" }
+  },
+  {
+    path: "/auth",
+    name: "Auth",
+    meta: { layout: "main" },
+    component: () => import("../components/authorization/Auth.vue")
   }
 ];
 
