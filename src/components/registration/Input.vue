@@ -41,51 +41,42 @@ export default {
           value,
           index
         });
-        this.validateField();
+        this.checkField();
       }, 100);
     },
-    validateField() {
+    validateField(checkResult, errorMessage) {
+      errorMessage = checkResult ? "" : errorMessage;
+      this.changeValidateResult(checkResult, errorMessage);
+      this.changeErrorStatus(!checkResult, this.index);
+    },
+    checkField() {
       const label = this.field.label;
       const pattern = this.field.pattern;
       const value = this.field.value;
       const errorMessage = this.field.errorMessage;
       if (this.value !== "") {
         if (label === "Confirm password") {
-          if (this.checkPassword(value, this.regInfo[3].value)) {
-            this.changeValidateResult(true, "");
-            this.changeErrorStatus(false, this.index);
-          } else {
-            this.changeValidateResult(false, "Пароли не совпадают!");
-            this.changeErrorStatus(true, this.index);
-          }
+          const passwordValue = this.regInfo[this.index - 1].value;
+          const checkResult = this.checkPassword(value, passwordValue);
+          this.validateField(checkResult, "Пароли не совпадают!");
         } else if (pattern.test(value)) {
           if (label === "Login") {
             this.checkLogin(value).then(response => {
-              if (response === false) {
-                this.changeValidateResult(true, "");
-                this.changeErrorStatus(false, this.index);
-              } else {
-                this.changeValidateResult(false, "Такой логин уже есть!");
-                this.changeErrorStatus(true, this.index);
-              }
+              const checkResult = !response;
+              this.validateField(checkResult, "Такой логин уже есть!");
             });
           } else if (label === "Email") {
             this.checkEmail(value).then(response => {
-              if (response === false) {
-                this.changeValidateResult(true, "");
-                this.changeErrorStatus(false, this.index);
-              } else {
-                this.changeValidateResult(false, "Такая почта уже есть!");
-                this.changeErrorStatus(true, this.index);
-              }
+              const checkResult = !response;
+              this.validateField(checkResult, "Такая почта уже есть!");
             });
           } else {
-            this.changeValidateResult(true, "");
-            this.changeErrorStatus(false, this.index);
+            const checkResult = true;
+            this.validateField(checkResult, "");
           }
         } else {
-          this.changeValidateResult(false, errorMessage);
-          this.changeErrorStatus(true, this.index);
+          const checkResult = false;
+          this.validateField(checkResult, errorMessage);
         }
       }
     },
