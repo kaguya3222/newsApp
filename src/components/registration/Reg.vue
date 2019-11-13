@@ -90,6 +90,6 @@ export default {
   },
   components: {
     "app-input": Input
-  }
+  },
 };
 </script>
