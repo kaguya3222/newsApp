@@ -11,7 +11,7 @@ import authorize from "./components/mixins/authorize.js";
 
 export default {
   computed: {
-    ...mapGetters[("login", "name", "isAuthorized")]
+    ...mapGetters[("login", "name")]
   },
   components: {
     "main-layout": MainLayout
@@ -28,5 +28,6 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./src/styles/libraries/animate";
 @import "./src/styles/styles";
 </style>
