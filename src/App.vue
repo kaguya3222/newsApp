@@ -7,22 +7,16 @@
 <script>
 import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
+import authorize from "./components/mixins/authorize.js";
 
 export default {
   computed: {
     ...mapGetters[("login", "name", "isAuthorized")]
   },
-  methods: {
-    saveUserParams(login, name) {
-      this.$store.dispatch("changeUserParams", {
-        login,
-        name
-      });
-    }
-  },
   components: {
     "main-layout": MainLayout
   },
+  mixins: [authorize],
   created() {
     if (localStorage.login && localStorage.name) {
       const login = localStorage.login;
