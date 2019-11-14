@@ -84,6 +84,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import authorize from "../components/mixins/authorize.js";
+
 export default {
   props: {
     source: String
@@ -105,13 +107,8 @@ export default {
           this.saveUserParams("", "");
         });
       });
-    },
-    saveUserParams(login, name) {
-      this.$store.dispatch("changeUserParams", {
-        login,
-        name
-      });
     }
-  }
+  },
+  mixins: [authorize]
 };
 </script>
