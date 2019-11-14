@@ -14,4 +14,16 @@
 .input-field-width {
   width: 250px;
 }
+
+.error-text {
+  font-size: 12px;
+  color: #e74c3c;
+}
+
+.animated {
+  -webkit-animation-duration: 0.9s;
+          animation-duration: 0.9s;
+  -webkit-transition-duration: 0.9s;
+          transition-duration: 0.9s;
+}
 /*# sourceMappingURL=styles.css.map */
