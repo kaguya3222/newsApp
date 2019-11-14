@@ -9,6 +9,18 @@
         :index="index"
         :key="index"
       ></auth-input>
+      <div v-if="errorStatus" class="animated fadeIn">
+        <p class="error-text">
+          Неправильный логин или пароль
+        </p>
+      </div>
+      <v-btn
+        color="indigo"
+        :dark="!isDisabled"
+        :disabled="isDisabled"
+        @click="sendAuthData()"
+        >Sign in</v-btn
+      >
     </v-container>
   </v-form>
 </template>
@@ -18,12 +30,46 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
+import axios from "axios";
+import authorize from "../mixins/authorize.js";
+
 export default {
   computed: {
-    ...mapGetters(["authInfo"])
+    ...mapGetters(["authInfo", "errorStatus"]),
+    isDisabled() {
+      return this.authInfo.some(el => {
+        return el.isFilled === false;
+      });
+    }
+  },
+  methods: {
+    sendAuthData() {
+      const authData = this.authInfo.map(el => {
+        return el.value;
+      });
+      const [login, password] = authData;
+      const formData = new FormData();
+      formData.append("login", login);
+      formData.append("password", password);
+      return axios
+        .post("http://localhost:8080/login", formData)
+        .then(response => {
+          if (response.data.isAuthorized === true) {
+            const name = response.data.name;
+            this.setLocalStorageUserData({
+              login,
+              name
+            });
+            this.authorizeUser();
+          } else {
+            this.$store.dispatch("changeAuthErrorStatus", true);
+          }
+        });
+    }
   },
   components: {
     "auth-input": Input
-  }
+  },
+  mixins: [authorize]
 };
 </script>
