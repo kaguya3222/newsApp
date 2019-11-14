@@ -54,7 +54,8 @@ export default {
       return axios
         .post("http://localhost:8080/login", formData)
         .then(response => {
-          if (response.data.isAuthorized === true) {
+          const isAuthorized = Boolean(response.data.isAuthorized);
+          if (isAuthorized === true) {
             const name = response.data.name;
             this.setLocalStorageUserData({
               login,
