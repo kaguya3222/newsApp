@@ -25,6 +25,7 @@
 import Input from "./Input";
 import { mapGetters } from "vuex";
 import axios from "axios";
+import authorize from "../mixins/authorize.js";
 
 export default {
   data() {
@@ -64,25 +65,7 @@ export default {
           login,
           name
         });
-        this.$router.push("/", () => {
-          if (localStorage.login && localStorage.name) {
-            const login = localStorage.login;
-            const name = localStorage.name;
-            this.saveUserParams(login, name);
-          }
-        });
-      });
-    },
-    setLocalStorageUserData(userDataObj) {
-      for (let property in userDataObj) {
-        localStorage[property] = userDataObj[property];
-        localStorage[property] = userDataObj[property];
-      }
-    },
-    saveUserParams(login, name) {
-      this.$store.dispatch("changeUserParams", {
-        login,
-        name
+        this.authorizeUser();
       });
     },
     buttonClicked(status) {
@@ -92,6 +75,7 @@ export default {
   },
   components: {
     "reg-input": Input
-  }
+  },
+  mixins: [authorize]
 };
 </script>
