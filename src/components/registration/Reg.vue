@@ -56,12 +56,10 @@ export default {
       formData.append("password", password);
       formData.append("email", email);
       formData.append("name", name);
-      this.isLoading = true;
-      this.isSubmited = true;
+      this.buttonClicked(true);
 
       axios.post("http://localhost:8080/register", formData).then(() => {
-        this.isLoading = false;
-        this.isSubmited = false;
+        this.buttonClicked(false);
         this.setLocalStorageUserData({
           login,
           name
@@ -86,6 +84,10 @@ export default {
         login,
         name
       });
+    },
+    buttonClicked(status) {
+      this.isLoading = status;
+      this.isSubmited = status;
     }
   },
   components: {
