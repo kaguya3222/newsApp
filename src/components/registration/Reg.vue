@@ -26,6 +26,7 @@ import Input from "./Input";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import authorize from "../mixins/authorize.js";
+import storageHandler from "../mixins/storageHandler.js";
 
 export default {
   data() {
@@ -40,9 +41,7 @@ export default {
       if (this.isSubmited) {
         return true;
       } else {
-        return this.regInfo.some(el => {
-          return el.errorStatus === true;
-        });
+        return this.getCollectionData("regInfo", "errorStatus");
       }
     }
   },
@@ -76,6 +75,6 @@ export default {
   components: {
     "reg-input": Input
   },
-  mixins: [authorize]
+  mixins: [authorize, storageHandler]
 };
 </script>
