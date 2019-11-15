@@ -26,7 +26,7 @@
             <v-list-item-title>Sign up</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link v-if="!isAuthorized">
+        <v-list-item link v-if="!isAuthorized" to="/auth">
           <v-list-item-action>
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
