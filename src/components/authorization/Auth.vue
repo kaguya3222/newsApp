@@ -33,6 +33,7 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import authorize from "../mixins/authorize.js";
 import storageHandler from "../mixins/storageHandler.js";
+import formDataHandler from "../mixins/formDataHandler.js";
 
 export default {
   computed: {
@@ -47,30 +48,24 @@ export default {
     sendAuthData() {
       const authData = this.getCollectionData("authInfo", "value");
       const [login, password] = authData;
-      const formData = new FormData();
-      formData.append("login", login);
-      formData.append("password", password);
+      const formData = this.createAndFillFormData({
+        login,
+        password
+      });
       axios.post("http://localhost:8080/login", formData).then(response => {
         if (response.data.isAuthorized == "true") {
           const name = response.data.name;
           this.authorize(login, name);
+          this.$store.dispatch("changeAuthErrorStatus", false);
         } else {
           this.$store.dispatch("changeAuthErrorStatus", true);
         }
       });
-    },
-    authorize(login, name) {
-      this.setLocalStorageUserData({
-        login,
-        name
-      });
-      this.authorizeUser();
-      this.$store.dispatch("changeAuthErrorStatus", false);
     }
   },
   components: {
     "auth-input": Input
   },
-  mixins: [authorize, storageHandler]
+  mixins: [authorize, storageHandler, formDataHandler]
 };
 </script>
