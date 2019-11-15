@@ -6,20 +6,27 @@ export default {
         localStorage[property] = userDataObj[property];
       }
     },
-    saveUserParams(login, name) {
+    setUserParams(login, name) {
       this.$store.dispatch("changeUserParams", {
         login,
         name
       });
     },
-    authorizeUser() {
+    saveUserParams() {
       this.$router.push("/", () => {
         if (localStorage.login && localStorage.name) {
           const login = localStorage.login;
           const name = localStorage.name;
-          this.saveUserParams(login, name);
+          this.setUserParams(login, name);
         }
       });
+    },
+    authorize(login, name) {
+      this.setLocalStorageUserData({
+        login,
+        name
+      });
+      this.saveUserParams();
     }
   }
 };
