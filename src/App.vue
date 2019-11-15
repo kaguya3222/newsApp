@@ -18,11 +18,7 @@ export default {
   },
   mixins: [authorize],
   created() {
-    if (localStorage.login && localStorage.name) {
-      const login = localStorage.login;
-      const name = localStorage.name;
-      this.saveUserParams(login, name);
-    }
+    this.setUserParamsFromLocalStorage();
   }
 };
 </script>
