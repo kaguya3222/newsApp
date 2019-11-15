@@ -48,24 +48,19 @@ export default {
   },
   methods: {
     sendRegData() {
-      const regData = this.regInfo.map(el => {
-        return el.value;
-      });
+      const regData = this.getCollectionData("regInfo", "value");
       const [login, name, email, password] = regData;
-      const formData = new FormData();
-      formData.append("login", login);
-      formData.append("password", password);
-      formData.append("email", email);
-      formData.append("name", name);
+      const formData = this.createAndFillFormData({
+        login,
+        name,
+        email,
+        password
+      });
       this.buttonClicked(true);
 
       axios.post("http://localhost:8080/register", formData).then(() => {
         this.buttonClicked(false);
-        this.setLocalStorageUserData({
-          login,
-          name
-        });
-        this.authorizeUser();
+        this.authorize();
       });
     },
     buttonClicked(status) {
