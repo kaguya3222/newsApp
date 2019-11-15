@@ -12,13 +12,16 @@ export default {
         name
       });
     },
-    saveUserParams() {
+    setUserParamsFromLocalStorage() {
+      if (localStorage.login && localStorage.name) {
+        const login = localStorage.login;
+        const name = localStorage.name;
+        this.setUserParams(login, name);
+      }
+    },
+    sendDataButtonClicked() {
       this.$router.push("/", () => {
-        if (localStorage.login && localStorage.name) {
-          const login = localStorage.login;
-          const name = localStorage.name;
-          this.setUserParams(login, name);
-        }
+        this.setUserParamsFromLocalStorage();
       });
     },
     authorize(login, name) {
@@ -26,7 +29,7 @@ export default {
         login,
         name
       });
-      this.saveUserParams();
+      this.sendDataButtonClicked();
     }
   }
 };
