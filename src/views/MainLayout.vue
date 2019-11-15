@@ -104,7 +104,7 @@ export default {
         localStorage.login = "";
         localStorage.name = "";
         this.$router.push("/", () => {
-          this.saveUserParams("", "");
+          this.setUserParams("", "");
         });
       });
     }
