@@ -28,7 +28,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["regInfo"])
+    ...mapGetters(["regInfo"]),
+    checkIfFieldNeedsRequest() {
+      const requestName = this.field.requestName;
+      return requestName === "" ? "No request" : "Request";
+    }
   },
   methods: {
     onInput(e, index) {
@@ -41,7 +45,9 @@ export default {
           value,
           index
         });
-        this.checkField();
+        if (value !== "") {
+          this.checkField();
+        }
       }, 100);
     },
     validateField(checkResult, errorMessage) {
@@ -50,55 +56,62 @@ export default {
       this.changeErrorStatus(!checkResult, this.index);
     },
     checkField() {
-      const label = this.field.label;
-      const pattern = this.field.pattern;
-      const value = this.field.value;
-      const errorMessage = this.field.errorMessage;
-      if (this.value !== "") {
-        if (label === "Confirm password") {
-          const passwordValue = this.regInfo[this.index - 1].value;
-          const checkResult = this.checkPassword(value, passwordValue);
-          this.validateField(checkResult, "Пароли не совпадают!");
-        } else if (pattern.test(value)) {
-          if (label === "Login") {
-            this.checkLogin(value).then(response => {
-              const checkResult = !response;
-              this.validateField(checkResult, "Такой логин уже есть!");
-            });
-          } else if (label === "Email") {
-            this.checkEmail(value).then(response => {
-              const checkResult = !response;
-              this.validateField(checkResult, "Такая почта уже есть!");
-            });
-          } else {
-            const checkResult = true;
-            this.validateField(checkResult, "");
-          }
-        } else {
-          const checkResult = false;
-          this.validateField(checkResult, errorMessage);
-        }
+      const {
+        value,
+        label,
+        commonError,
+        pattern,
+        requestName,
+        existsError
+      } = this.field;
+      if (label === "Confirm password") {
+        const passwordValue = this.regInfo[this.index - 1].value;
+        const checkResult = this.checkPassword(value, passwordValue);
+        this.validateField(checkResult, "Пароли не совпадают!");
+      } else if (pattern.test(value)) {
+        this.checkFieldCallback({
+          value,
+          label,
+          requestName,
+          checkResult: true,
+          commonError,
+          existsError
+        });
+      } else {
+        this.validateField(false, commonError);
       }
     },
-    checkLogin(login) {
+    checkFieldCallback(params) {
+      const { value, label, requestName } = params;
+      if (this.checkIfFieldNeedsRequest === "No request") {
+        const checkResult = params.checkResult;
+        const commonError = params.commonError;
+        this.validateField(checkResult, commonError);
+      } else {
+        const existsError = params.existsError;
+        this.handleCheckIfParamExistsResponse(
+          { name: label.toLowerCase(), value },
+          requestName,
+          existsError
+        );
+      }
+    },
+    checkIfParamExists(paramObj, requestName) {
       const formData = new FormData();
-      formData.append("login", login);
+      const paramName = paramObj.name;
+      const paramValue = paramObj.value;
+      formData.append(paramName, paramValue);
 
       return axios
-        .post("http://localhost:8080/checkLogin", formData)
+        .post(`http://localhost:8080/${requestName}`, formData)
         .then(response => {
           return response.data.isExist;
         });
     },
-    checkEmail(email) {
-      const formData = new FormData();
-      formData.append("email", email);
-
-      return axios
-        .post("http://localhost:8080/checkEmail", formData)
-        .then(response => {
-          return response.data.isExist;
-        });
+    handleCheckIfParamExistsResponse(paramObj, requestName, errorMessage) {
+      this.checkIfParamExists(paramObj, requestName).then(response => {
+        this.validateField(!response, errorMessage);
+      });
     },
     checkPassword(confirmPasswordValue, passwordValue) {
       return confirmPasswordValue === passwordValue ? true : false;
