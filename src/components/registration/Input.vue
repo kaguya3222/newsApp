@@ -37,6 +37,8 @@ export default {
   methods: {
     onInput(e, index) {
       const value = e;
+      const label = this.field.label;
+
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
@@ -47,6 +49,10 @@ export default {
         });
         if (value !== "") {
           this.checkField();
+        }
+        if (label === "Password") {
+          const confirmPasswordValue = this.regInfo[this.index + 1].value;
+          this.checkPasswordCallback(value, confirmPasswordValue);
         }
       }, 100);
     },
@@ -66,8 +72,7 @@ export default {
       } = this.field;
       if (label === "Confirm password") {
         const passwordValue = this.regInfo[this.index - 1].value;
-        const checkResult = this.checkPassword(value, passwordValue);
-        this.validateField(checkResult, "Пароли не совпадают!");
+        this.checkPasswordCallback(passwordValue, value);
       } else if (pattern.test(value)) {
         this.checkFieldCallback({
           value,
@@ -115,6 +120,15 @@ export default {
     },
     checkPassword(confirmPasswordValue, passwordValue) {
       return confirmPasswordValue === passwordValue ? true : false;
+    },
+    checkPasswordCallback(passwordValue, confirmPasswordValue) {
+      const checkResult = this.checkPassword(
+        passwordValue,
+        confirmPasswordValue
+      );
+      if (confirmPasswordValue !== "") {
+        this.validateField(checkResult, "Пароли не совпадают!");
+      }
     },
     changeValidateResult(isSuccess, errorMessage) {
       this.validateResult = {
