@@ -42,7 +42,7 @@ export default {
       if (this.isSubmited) {
         return true;
       } else {
-        return this.checkCollectionData("regInfo", "errorStatus");
+        return this.checkCollectionData("regInfo", "errorStatus", true);
       }
     }
   },
@@ -60,7 +60,7 @@ export default {
 
       axios.post("http://localhost:8080/register", formData).then(() => {
         this.buttonClicked(false);
-        this.authorize();
+        this.authorize(login, name);
       });
     },
     buttonClicked(status) {
