@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    :label="field.label"
+    :label="field.title"
     @input="onInput($event, index)"
     class="input-field-width"
     :type="field.type"
@@ -28,11 +28,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["regInfo"])
+    ...mapGetters(["regInfo"]),
+    checkIfFieldNeedsRequest() {
+      const requestName = this.field.requestName;
+      return requestName === "" ? "No request" : "Request";
+    }
   },
   methods: {
     onInput(e, index) {
       const value = e;
+      const label = this.field.label;
+
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
@@ -41,76 +47,88 @@ export default {
           value,
           index
         });
-        this.validateField();
+        if (value !== "") {
+          this.checkField();
+        }
+        if (label === "Password") {
+          const confirmPasswordValue = this.regInfo[this.index + 1].value;
+          this.checkPasswordCallback(value, confirmPasswordValue);
+        }
       }, 100);
     },
-    validateField() {
-      const label = this.field.label;
-      const pattern = this.field.pattern;
-      const value = this.field.value;
-      const errorMessage = this.field.errorMessage;
-      if (this.value !== "") {
-        if (label === "Confirm password") {
-          if (this.checkPassword(value, this.regInfo[3].value)) {
-            this.changeValidateResult(true, "");
-            this.changeErrorStatus(false, this.index);
-          } else {
-            this.changeValidateResult(false, "Пароли не совпадают!");
-            this.changeErrorStatus(true, this.index);
-          }
-        } else if (pattern.test(value)) {
-          if (label === "Login") {
-            this.checkLogin(value).then(response => {
-              if (response === false) {
-                this.changeValidateResult(true, "");
-                this.changeErrorStatus(false, this.index);
-              } else {
-                this.changeValidateResult(false, "Такой логин уже есть!");
-                this.changeErrorStatus(true, this.index);
-              }
-            });
-          } else if (label === "Email") {
-            this.checkEmail(value).then(response => {
-              if (response === false) {
-                this.changeValidateResult(true, "");
-                this.changeErrorStatus(false, this.index);
-              } else {
-                this.changeValidateResult(false, "Такая почта уже есть!");
-                this.changeErrorStatus(true, this.index);
-              }
-            });
-          } else {
-            this.changeValidateResult(true, "");
-            this.changeErrorStatus(false, this.index);
-          }
-        } else {
-          this.changeValidateResult(false, errorMessage);
-          this.changeErrorStatus(true, this.index);
-        }
+    validateField(checkResult, errorMessage) {
+      errorMessage = checkResult ? "" : errorMessage;
+      this.changeValidateResult(checkResult, errorMessage);
+      this.changeErrorStatus(!checkResult, this.index);
+    },
+    checkField() {
+      const {
+        value,
+        label,
+        commonError,
+        pattern,
+        requestName,
+        existsError
+      } = this.field;
+      if (label === "Confirm password") {
+        const passwordValue = this.regInfo[this.index - 1].value;
+        this.checkPasswordCallback(passwordValue, value);
+      } else if (pattern.test(value)) {
+        this.checkFieldCallback({
+          value,
+          label,
+          requestName,
+          checkResult: true,
+          commonError,
+          existsError
+        });
+      } else {
+        this.validateField(false, commonError);
       }
     },
-    checkLogin(login) {
+    checkFieldCallback(params) {
+      const { value, label, requestName } = params;
+      if (this.checkIfFieldNeedsRequest === "No request") {
+        const checkResult = params.checkResult;
+        const commonError = params.commonError;
+        this.validateField(checkResult, commonError);
+      } else {
+        const existsError = params.existsError;
+        this.handleCheckIfParamExistsResponse(
+          { name: label.toLowerCase(), value },
+          requestName,
+          existsError
+        );
+      }
+    },
+    checkIfParamExists(paramObj, requestName) {
       const formData = new FormData();
-      formData.append("login", login);
+      const paramName = paramObj.name;
+      const paramValue = paramObj.value;
+      formData.append(paramName, paramValue);
 
       return axios
-        .post("http://localhost:8080/checkLogin", formData)
+        .post(`http://localhost:8080/${requestName}`, formData)
         .then(response => {
           return response.data.isExist;
         });
     },
-    checkEmail(email) {
-      const formData = new FormData();
-      formData.append("email", email);
-
-      return axios
-        .post("http://localhost:8080/checkEmail", formData)
-        .then(response => {
-          return response.data.isExist;
-        });
+    handleCheckIfParamExistsResponse(paramObj, requestName, errorMessage) {
+      this.checkIfParamExists(paramObj, requestName).then(response => {
+        this.validateField(!response, errorMessage);
+      });
     },
     checkPassword(confirmPasswordValue, passwordValue) {
       return confirmPasswordValue === passwordValue ? true : false;
+    },
+    checkPasswordCallback(passwordValue, confirmPasswordValue) {
+      const checkResult = this.checkPassword(
+        passwordValue,
+        confirmPasswordValue
+      );
+      if (confirmPasswordValue !== "") {
+        this.validateField(checkResult, "Пароли не совпадают!");
+      }
     },
     changeValidateResult(isSuccess, errorMessage) {
       this.validateResult = {

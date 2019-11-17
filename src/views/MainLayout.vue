@@ -7,7 +7,7 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>Домой</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -15,7 +15,7 @@
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Связаться с нами</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link v-if="!isAuthorized" to="/reg">
@@ -23,15 +23,15 @@
             <v-icon>mdi-clipboard-account</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sign up</v-list-item-title>
+            <v-list-item-title>Регистрация</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link v-if="!isAuthorized">
+        <v-list-item link v-if="!isAuthorized" to="/auth">
           <v-list-item-action>
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sign in</v-list-item-title>
+            <v-list-item-title>Войти</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link v-if="isAuthorized" @click.stop="dialog = true">
@@ -65,8 +65,8 @@
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>NewsApp</v-toolbar-title>
-      <v-toolbar-items class="d-flex align-center ml-auto">
-        <blockquote class="blockquoute"></blockquote>
+      <v-toolbar-items class="d-flex align-center ml-auto" v-if="isAuthorized">
+        <v-toolbar-title>Hello, {{ name }}</v-toolbar-title>
       </v-toolbar-items>
     </v-app-bar>
 
@@ -83,6 +83,8 @@
 
 <script>
 import { mapGetters } from "vuex";
+
+import authorize from "../components/mixins/authorize.js";
 
 export default {
   props: {
@@ -102,16 +104,11 @@ export default {
         localStorage.login = "";
         localStorage.name = "";
         this.$router.push("/", () => {
-          this.saveUserParams("", "");
+          this.setUserParams("", "");
         });
       });
-    },
-    saveUserParams(login, name) {
-      this.$store.dispatch("changeUserParams", {
-        login,
-        name
-      });
     }
-  }
+  },
+  mixins: [authorize]
 };
 </script>

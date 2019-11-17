@@ -6,19 +6,23 @@
       class="d-flex flex-column justify-center align-center"
       v-if="!isAuthorized"
     >
-      <reg-input
-        v-for="(field, index) in regInfo"
-        :key="index"
+      <auth-input
+        v-for="(field, index) in authInfo"
         :field="field"
         :index="index"
-      ></reg-input>
+        :key="index"
+      ></auth-input>
+      <div v-if="errorStatus" class="animated fadeIn">
+        <p class="error-text">
+          Неправильный логин или пароль
+        </p>
+      </div>
       <v-btn
         color="indigo"
-        :disabled="isDisabled"
         :dark="!isDisabled"
-        @click="sendRegData()"
-        :loading="isLoading"
-        >Зарегистрироваться</v-btn
+        :disabled="isDisabled"
+        @click="sendAuthData()"
+        >Войти</v-btn
       >
     </v-container>
     <div class="message d-flex flex-column align-center" v-if="isAuthorized">
@@ -30,53 +34,44 @@
 
 <script>
 import Input from "./Input";
+
 import { mapGetters } from "vuex";
+
 import axios from "axios";
 import authorize from "../mixins/authorize.js";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 
 export default {
-  data() {
-    return {
-      isLoading: false,
-      isSubmited: false
-    };
-  },
   computed: {
-    ...mapGetters(["regInfo", "isAuthorized"]),
+    ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      if (this.isSubmited) {
-        return true;
-      } else {
-        return this.checkCollectionData("regInfo", "errorStatus", true);
-      }
+      return this.authInfo.some(el => {
+        return el.isFilled === false;
+      });
     }
   },
   methods: {
-    sendRegData() {
-      const regData = this.getCollectionData("regInfo", "value");
-      const [login, name, email, password] = regData;
+    sendAuthData() {
+      const authData = this.getCollectionData("authInfo", "value");
+      const [login, password] = authData;
       const formData = this.createAndFillFormData({
         login,
-        name,
-        email,
         password
       });
-      this.buttonClicked(true);
-
-      axios.post("http://localhost:8080/register", formData).then(() => {
-        this.buttonClicked(false);
-        this.authorize(login, name);
+      axios.post("http://localhost:8080/login", formData).then(response => {
+        if (response.data.isAuthorized == "true") {
+          const name = response.data.name;
+          this.authorize(login, name);
+          this.$store.dispatch("changeAuthErrorStatus", false);
+        } else {
+          this.$store.dispatch("changeAuthErrorStatus", true);
+        }
       });
-    },
-    buttonClicked(status) {
-      this.isLoading = status;
-      this.isSubmited = status;
     }
   },
   components: {
-    "reg-input": Input
+    "auth-input": Input
   },
   mixins: [authorize, storageHandler, formDataHandler]
 };
