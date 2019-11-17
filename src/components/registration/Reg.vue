@@ -2,7 +2,10 @@
   <v-form
     class="d-flex flex-column justify-center align-center full-height full-width"
   >
-    <v-container class="d-flex flex-column justify-center align-center">
+    <v-container
+      class="d-flex flex-column justify-center align-center"
+      v-if="!isAuthorized"
+    >
       <reg-input
         v-for="(field, index) in regInfo"
         :key="index"
@@ -18,6 +21,10 @@
         >Зарегистрироваться</v-btn
       >
     </v-container>
+    <div class="message d-flex flex-column align-center" v-if="isAuthorized">
+      <p>Вы уже вошли в систему</p>
+      <router-link to="/">Вернуться на главную</router-link>
+    </div>
   </v-form>
 </template>
 
@@ -37,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["regInfo"]),
+    ...mapGetters(["regInfo", "isAuthorized"]),
     isDisabled() {
       if (this.isSubmited) {
         return true;
