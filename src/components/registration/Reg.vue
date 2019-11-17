@@ -15,7 +15,7 @@
         :dark="!isDisabled"
         @click="sendRegData()"
         :loading="isLoading"
-        >Sign up</v-btn
+        >Зарегистрироваться</v-btn
       >
     </v-container>
   </v-form>
