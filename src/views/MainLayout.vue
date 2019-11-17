@@ -65,8 +65,8 @@
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>NewsApp</v-toolbar-title>
-      <v-toolbar-items class="d-flex align-center ml-auto">
-        <blockquote class="blockquoute"></blockquote>
+      <v-toolbar-items class="d-flex align-center ml-auto" v-if="isAuthorized">
+        <v-toolbar-title>Hello, {{ name }}</v-toolbar-title>
       </v-toolbar-items>
     </v-app-bar>
 
