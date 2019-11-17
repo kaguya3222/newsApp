@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    :label="field.label"
+    :label="field.title"
     :type="field.type"
     @input="onInput($event)"
     class="input-field-width"
