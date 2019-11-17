@@ -19,7 +19,7 @@
         :dark="!isDisabled"
         :disabled="isDisabled"
         @click="sendAuthData()"
-        >Sign in</v-btn
+        >Войти</v-btn
       >
     </v-container>
   </v-form>
