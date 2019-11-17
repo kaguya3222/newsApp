@@ -2,7 +2,10 @@
   <v-form
     class="d-flex flex-column justify-center align-center full-height full-width"
   >
-    <v-container class="d-flex flex-column justify-center align-center">
+    <v-container
+      class="d-flex flex-column justify-center align-center"
+      v-if="!isAuthorized"
+    >
       <auth-input
         v-for="(field, index) in authInfo"
         :field="field"
@@ -22,6 +25,10 @@
         >Войти</v-btn
       >
     </v-container>
+    <div class="message d-flex flex-column align-center" v-if="isAuthorized">
+      <p>Вы уже вошли в систему</p>
+      <router-link to="/">Вернуться на главную</router-link>
+    </div>
   </v-form>
 </template>
 
@@ -37,7 +44,7 @@ import formDataHandler from "../mixins/formDataHandler.js";
 
 export default {
   computed: {
-    ...mapGetters(["authInfo", "errorStatus"]),
+    ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
       return this.authInfo.some(el => {
         return el.isFilled === false;
