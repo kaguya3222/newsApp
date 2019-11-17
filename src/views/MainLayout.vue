@@ -7,7 +7,7 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>Домой</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -15,7 +15,7 @@
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Связаться с нами</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link v-if="!isAuthorized" to="/reg">
@@ -23,7 +23,7 @@
             <v-icon>mdi-clipboard-account</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sign up</v-list-item-title>
+            <v-list-item-title>Регистрация</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link v-if="!isAuthorized" to="/auth">
@@ -31,7 +31,7 @@
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sign in</v-list-item-title>
+            <v-list-item-title>Войти</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link v-if="isAuthorized" @click.stop="dialog = true">
