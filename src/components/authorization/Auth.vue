@@ -21,6 +21,7 @@
         color="indigo"
         :dark="!isDisabled"
         :disabled="isDisabled"
+        :loading="isLoading"
         @click="sendAuthData()"
         >Войти</v-btn
       >
@@ -43,10 +44,18 @@ import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      isSubmited: false
+    };
+  },
   computed: {
     ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      return this.checkCollectionData("authInfo", "isFilled", false);
+      return this.isSubmited
+        ? true
+        : this.checkCollectionData("authInfo", "isFilled", false);
     }
   },
   methods: {
@@ -57,16 +66,23 @@ export default {
         login,
         password
       });
+      this.buttonClicked(true);
       axios.post("http://localhost:8080/login", formData).then(response => {
         if (response.data.isAuthorized == "true") {
           const name = response.data.name;
           const role = response.data.role;
+          this.buttonClicked(false);
           this.authorize(login, name, role);
           this.$store.dispatch("changeAuthErrorStatus", false);
         } else {
           this.$store.dispatch("changeAuthErrorStatus", true);
+          this.buttonClicked(false);
         }
       });
+    },
+    buttonClicked(status) {
+      this.isSubmited = status;
+      this.isLoading = status;
     }
   },
   components: {
