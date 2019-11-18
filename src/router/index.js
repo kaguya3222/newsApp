@@ -7,7 +7,8 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    meta: { layout: "main" }
+    meta: { layout: "main" },
+    component: () => import("../components/Home.vue")
   },
   {
     path: "/reg",
@@ -25,6 +26,12 @@ const routes = [
     name: "Auth",
     meta: { layout: "main" },
     component: () => import("../components/authorization/Auth.vue")
+  },
+  {
+    path: "/create",
+    name: "Create",
+    meta: { layout: "main" },
+    component: () => import("../components/News/CreateNews.vue")
   }
 ];
 
