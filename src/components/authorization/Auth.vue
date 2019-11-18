@@ -68,21 +68,21 @@ export default {
       });
       this.buttonClicked(true);
       axios.post("http://localhost:8080/login", formData).then(response => {
-        if (response.data.isAuthorized == "true") {
-          const name = response.data.name;
-          const role = response.data.role;
-          this.buttonClicked(false);
-          this.authorize(login, name, role);
-          this.$store.dispatch("changeAuthErrorStatus", false);
-        } else {
-          this.$store.dispatch("changeAuthErrorStatus", true);
-          this.buttonClicked(false);
-        }
+        this.sendAuthDataCallback(response.data);
       });
     },
     buttonClicked(status) {
       this.isSubmited = status;
       this.isLoading = status;
+    },
+    sendAuthDataCallback(response) {
+      const isSuccessful = response.isAuthorized == "true";
+      this.$store.dispatch("changeAuthErrorStatus", !isSuccessful);
+      this.buttonClicked(false);
+      if (isSuccessful) {
+        const [, , login, name, role] = response;
+        this.authorize(login, name, role);
+      }
     }
   },
   components: {
