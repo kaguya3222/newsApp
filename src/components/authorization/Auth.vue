@@ -46,9 +46,7 @@ export default {
   computed: {
     ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      return this.authInfo.some(el => {
-        return el.isFilled === false;
-      });
+      return this.checkCollectionData("authInfo", "isFilled", false);
     }
   },
   methods: {
