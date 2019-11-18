@@ -8,6 +8,22 @@ export default {
       {
         title: "Our second news card",
         smallDescription: "Small description text"
+      },
+      {
+        title: "Our second news card",
+        smallDescription: "Small description text"
+      },
+      {
+        title: "Our second news card",
+        smallDescription: "Small description text"
+      },
+      {
+        title: "Our second news card",
+        smallDescription: "Small description text"
+      },
+      {
+        title: "Our second news card",
+        smallDescription: "Small description text"
       }
     ]
   },
