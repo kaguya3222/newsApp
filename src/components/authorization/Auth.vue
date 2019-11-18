@@ -62,7 +62,8 @@ export default {
       axios.post("http://localhost:8080/login", formData).then(response => {
         if (response.data.isAuthorized == "true") {
           const name = response.data.name;
-          this.authorize(login, name);
+          const role = response.data.role;
+          this.authorize(login, name, role);
           this.$store.dispatch("changeAuthErrorStatus", false);
         } else {
           this.$store.dispatch("changeAuthErrorStatus", true);
