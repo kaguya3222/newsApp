@@ -71,7 +71,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container class="d-flex flex-row justify-center full-height" fluid>
+      <v-container class="full-height" fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
