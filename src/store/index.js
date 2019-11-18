@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import app from "./modules/app.js";
 import reg from "./modules/reg.js";
 import auth from "./modules/auth.js";
+import news from "./modules/news.js";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   modules: {
     app,
     reg,
-    auth
+    auth,
+    news
   }
 });
