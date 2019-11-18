@@ -24,10 +24,11 @@ export default {
         this.setUserParamsFromLocalStorage();
       });
     },
-    authorize(login, name) {
+    authorize(login, name, role) {
       this.setLocalStorageUserData({
         login,
-        name
+        name,
+        role
       });
       this.sendDataButtonClicked();
     }
