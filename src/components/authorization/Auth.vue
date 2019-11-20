@@ -80,7 +80,9 @@ export default {
       this.$store.dispatch("changeAuthErrorStatus", !isSuccessful);
       this.buttonClicked(false);
       if (isSuccessful) {
-        const [, , login, name, role] = response;
+        const login = response.login;
+        const name = response.name;
+        const role = response.role;
         this.authorize(login, name, role);
       }
     }
