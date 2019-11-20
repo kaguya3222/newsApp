@@ -134,7 +134,11 @@ export default {
         passwordValue,
         confirmPasswordValue
       );
-      if (confirmPasswordValue !== "") {
+      if (this.field.label === "Password") {
+        if (confirmPasswordValue !== "") {
+          this.validateField(checkResult, "Пароли не совпадают!");
+        }
+      } else if (passwordValue !== "" || this.value !== "") {
         this.validateField(checkResult, "Пароли не совпадают!");
       }
     },
