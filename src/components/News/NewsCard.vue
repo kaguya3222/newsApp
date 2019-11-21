@@ -4,23 +4,41 @@
     max-width="250"
     style="width: 100%;"
   >
-    <v-card-title class="flex-grow-2">{{ newsCardData.title }}</v-card-title>
+    <v-card-title class="flex-grow-2 d-flex flex-row">
+      <span>{{ newsCardData.title }}</span>
+    </v-card-title>
     <v-card-text min-height="200">
       <p>{{ briefDescription }}</p>
       <span class="font-weight-bold text-end">Date: {{ date }}</span>
     </v-card-text>
     <v-card-actions class="flex-grow-2">
-      <v-btn text color="indigo">Learn more</v-btn>
+      <v-btn text color="indigo" @click="show = !show">Learn more</v-btn>
     </v-card-actions>
+    <v-expand-transition>
+      <div v-show="show">
+        <v-divider></v-divider>
+
+        <v-card-text>
+          {{ this.newsCardData.fullDescription }}
+        </v-card-text>
+      </div>
+    </v-expand-transition>
   </v-card>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      show: false
+    };
+  },
   props: {
     newsCardData: Object
   },
   computed: {
+    ...mapGetters(["isAdmin"]),
     date() {
       return this.newsCardData.date.slice(0, 10);
     },
