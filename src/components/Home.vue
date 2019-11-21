@@ -8,7 +8,7 @@
       :key="index"
       :newsCardData="newsCard"
     ></app-news-card>
-    <div class="btn-holder align-self-center ml-md-10 text-end">
+    <div class="btn-holder align-self-center ml-sm-10 text-end" v-if="isAdmin">
       <v-btn fab dark color="indigo">
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
@@ -28,7 +28,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["news"]),
+    ...mapGetters(["news", "isAdmin"]),
     flexClasses() {
       return {
         "flex-column": this.isMobile,
