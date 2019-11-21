@@ -75,6 +75,7 @@
         <router-view></router-view>
       </v-container>
     </v-content>
+
     <v-footer color="indigo" app>
       <span class="white--text">BidloDevs&copy; 2019</span>
     </v-footer>
@@ -101,10 +102,13 @@ export default {
     userExit() {
       this.dialog = false;
       this.$router.push("/exit", () => {
-        localStorage.login = "";
-        localStorage.name = "";
+        this.setLocalStorageUserData({
+          login: "",
+          name: "",
+          role: ""
+        });
         this.$router.push("/", () => {
-          this.setUserParams("", "");
+          this.setUserParams("", "", "");
         });
       });
     }
