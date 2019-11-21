@@ -4,7 +4,8 @@ export default {
   state: {
     userParams: {
       login: "",
-      name: ""
+      name: "",
+      role: ""
     }
   },
   getters: {
