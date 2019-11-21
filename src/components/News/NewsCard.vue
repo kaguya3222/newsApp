@@ -6,6 +6,14 @@
   >
     <v-card-title class="flex-grow-2 d-flex flex-row">
       <span>{{ newsCardData.title }}</span>
+      <v-btn
+        icon
+        class="ml-auto"
+        @mouseover="active = true"
+        @mouseleave="active = false"
+        v-if="isAdmin"
+        ><v-icon v-if="isAdmin" v-show="active">mdi-delete</v-icon></v-btn
+      >
     </v-card-title>
     <v-card-text min-height="200">
       <p>{{ briefDescription }}</p>
@@ -31,7 +39,8 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      show: false
+      show: false,
+      active: false
     };
   },
   props: {
