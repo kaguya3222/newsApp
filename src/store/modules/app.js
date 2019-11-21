@@ -17,6 +17,9 @@ export default {
     },
     isAuthorized(state) {
       return state.userParams.login ? true : false;
+    },
+    isAdmin(state) {
+      return state.userParams.role === "ADMIN";
     }
   },
   mutations: {
