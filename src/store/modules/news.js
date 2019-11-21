@@ -1,35 +1,22 @@
 export default {
   state: {
-    news: [
-      {
-        title: "Our first news card",
-        smallDescription: "Small description text"
-      },
-      {
-        title: "Our second news card",
-        smallDescription: "Small description text"
-      },
-      {
-        title: "Our second news card",
-        smallDescription: "Small description text"
-      },
-      {
-        title: "Our second news card",
-        smallDescription: "Small description text"
-      },
-      {
-        title: "Our second news card",
-        smallDescription: "Small description text"
-      },
-      {
-        title: "Our second news card",
-        smallDescription: "Small description text"
-      }
-    ]
+    news: []
   },
   getters: {
     news(state) {
       return state.news;
+    }
+  },
+  mutations: {
+    mutateNews(state, payLoad) {
+      payLoad.forEach(el => {
+        state.news.push(el);
+      });
+    }
+  },
+  actions: {
+    addNews(store, payLoad) {
+      store.commit("mutateNews", payLoad);
     }
   }
 };
