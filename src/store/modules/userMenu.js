@@ -2,11 +2,11 @@ export default {
   state: {
     userMenuOptions: [
       {
-        title: "Add news",
+        title: "Добавить новость",
         showPermission: "ADMIN"
       },
       {
-        title: "Exit",
+        title: "Выйти",
         showPermission: "READER"
       }
     ]
