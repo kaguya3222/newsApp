@@ -58,14 +58,11 @@ export default {
     },
     cardStyles() {
       return {
-        width: this.show ? "400px" : "250px",
+        width: this.show ? "400px" : "300px",
         transition: "width 0.3s ease-in-out"
       };
     }
   },
-  methods: {},
-  mounted() {
-    this.$emit("cardsLoaded");
-  }
+  methods: {}
 };
 </script>
