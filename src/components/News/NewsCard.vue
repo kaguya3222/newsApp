@@ -1,10 +1,12 @@
 <template>
   <v-card
     class="d-flex flex-column ml-3 mb-10 align-self-md-start"
-    :style="cardStyles"
+    style="width: 100%; max-width: 460px;"
   >
-    <v-card-title class="flex-grow-2 d-flex flex-row">
-      <span>{{ newsCardData.title }}</span>
+    <v-card-title class="flex-grow-2 d-flex flex-row flex-nowrap">
+      <span class="font-weight-bold" :class="titleFontSize">{{
+        newsCardData.title
+      }}</span>
       <v-btn
         icon
         class="ml-auto"
