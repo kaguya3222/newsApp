@@ -50,9 +50,13 @@
             </template>
             <v-list>
               <v-list-item
-                v-for="(item, index) in filteredMenuOptions"
+                link
+                v-for="(item, index) in adminMenuOptions"
                 :key="index"
               >
+                <v-list-item-action>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-action>
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
               <v-list-item link v-if="isAuthorized" @click.stop="dialog = true">
@@ -117,10 +121,10 @@ export default {
       "login",
       "name",
       "isAuthorized",
-      "userMenuOptions",
+      "adminMenuOptions",
       "role",
       "isAdmin"
-    ]),
+    ])
   },
   methods: {
     userExit() {
