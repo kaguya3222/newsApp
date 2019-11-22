@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="wrapper d-flex flex-wrap full-height justify-center"
-    :class="flexClasses"
-  >
+  <div class="news-wrapper d-flex flex-wrap full-height" :class="flexClasses">
     <app-news-card
       v-for="(newsCard, index) in news"
       :key="index"
