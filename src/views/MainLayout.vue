@@ -70,7 +70,7 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn color="white" dark v-on="on" text>
-                Hello, {{ name }}
+                Привет, {{ name }}
               </v-btn>
             </template>
             <v-list>
