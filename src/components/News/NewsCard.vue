@@ -1,8 +1,7 @@
 <template>
   <v-card
     class="d-flex flex-column ml-3 mb-10 align-self-md-start"
-    max-width="250"
-    style="width: 100%;"
+    :style="cardStyles"
   >
     <v-card-title class="flex-grow-2 d-flex flex-row">
       <span>{{ newsCardData.title }}</span>
@@ -56,6 +55,12 @@ export default {
       return description.length > 100
         ? description.slice(0, 100) + "..."
         : description;
+    },
+    cardStyles() {
+      return {
+        width: this.show ? "400px" : "250px",
+        transition: "width 0.3s ease-in-out"
+      };
     }
   },
   methods: {},
