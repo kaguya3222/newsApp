@@ -56,11 +56,18 @@ export default {
         ? description.slice(0, 100) + "..."
         : description;
     },
-    cardStyles() {
-      return {
-        width: this.show ? "400px" : "300px",
-        transition: "width 0.3s ease-in-out"
-      };
+    titleFontSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "body-1";
+        case "sm":
+          return "subtitle-2";
+        case "md":
+          return "subtitle-1";
+        case "lg":
+          return "title";
+      }
+      return "";
     }
   },
   methods: {}
