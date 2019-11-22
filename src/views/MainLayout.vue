@@ -66,7 +66,23 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>NewsApp</v-toolbar-title>
       <v-toolbar-items class="d-flex align-center ml-auto" v-if="isAuthorized">
-        <v-toolbar-title>Hello, {{ name }}</v-toolbar-title>
+        <div class="text-center">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn color="white" dark v-on="on" text>
+                Hello, {{ name }}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in filteredMenuOptions"
+                :key="index"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
       </v-toolbar-items>
     </v-app-bar>
 
@@ -86,6 +102,7 @@
 import { mapGetters } from "vuex";
 
 import authorize from "../components/mixins/authorize.js";
+import storageHandler from "../components/mixins/storageHandler.js";
 
 export default {
   props: {
@@ -96,7 +113,16 @@ export default {
     dialog: false
   }),
   computed: {
-    ...mapGetters(["login", "name", "isAuthorized"])
+    ...mapGetters(["login", "name", "isAuthorized", "userMenuOptions", "role"]),
+    filteredMenuOptions() {
+      return this.userMenuOptions.filter(el => {
+        if (this.role === "ADMIN") {
+          return true;
+        } else {
+          return el.showPermission === this.role;
+        }
+      });
+    }
   },
   methods: {
     userExit() {
@@ -113,6 +139,6 @@ export default {
       });
     }
   },
-  mixins: [authorize]
+  mixins: [authorize, storageHandler]
 };
 </script>
