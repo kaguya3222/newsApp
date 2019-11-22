@@ -1,19 +1,10 @@
 <template>
-  <div
-    class="news-wrapper d-flex flex-wrap full-height justify-center"
-    :class="flexClasses"
-  >
+  <div class="news-wrapper d-flex flex-wrap full-height justify-center">
     <app-news-card
       v-for="(newsCard, index) in news"
       :key="index"
       :newsCardData="newsCard"
-      class="news-card"
     ></app-news-card>
-    <div
-      class="btn-holder align-self-sm-start ml-sm-10"
-      v-if="isAdmin"
-      :style="btnMargin"
-    ></div>
   </div>
 </template>
 
@@ -29,14 +20,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["news", "isAdmin"]),
-    flexClasses() {
-      return {
-        "flex-column": this.isMobile,
-        "align-center": this.isMobile,
-        "flex-row": !this.isMobile
-      };
-    }
+    ...mapGetters(["news", "isAdmin"])
   },
   components: {
     "app-news-card": NewsCard
