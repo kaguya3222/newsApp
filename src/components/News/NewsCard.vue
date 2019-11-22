@@ -57,6 +57,10 @@ export default {
         ? description.slice(0, 100) + "..."
         : description;
     }
+  },
+  methods: {},
+  mounted() {
+    this.$emit("cardsLoaded");
   }
 };
 </script>
