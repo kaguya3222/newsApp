@@ -15,6 +15,9 @@ export default {
     name(state) {
       return state.userParams.name;
     },
+    role(state) {
+      return state.userParams.role;
+    },
     isAuthorized(state) {
       return state.userParams.login ? true : false;
     },
