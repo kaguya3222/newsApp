@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="d-flex flex-column ml-3 mb-10 align-self-md-start"
+    class="d-flex flex-column ml-sm-3 mb-7 align-self-start"
     style="width: 100%; max-width: 460px;"
   >
     <v-card-title class="flex-grow-2 d-flex flex-row flex-nowrap">
