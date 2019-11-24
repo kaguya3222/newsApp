@@ -15,24 +15,13 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {
-      isMobile: false
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["news", "isAdmin"])
   },
   components: {
     "app-news-card": NewsCard
-  },
-  methods: {
-    onResize() {
-      this.isMobile = window.innerWidth < 600;
-    }
-  },
-  mounted() {
-    this.onResize();
-    window.addEventListener("resize", this.onResize, { passive: true });
   }
 };
 </script>
