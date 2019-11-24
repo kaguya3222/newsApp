@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     deleteNewsCard(index) {
-      console.log(this.newsCardData.id);
       axios
         .delete(`http://localhost:8080/delete${this.newsCardData.id}`)
         .then(() => {
