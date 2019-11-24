@@ -51,7 +51,7 @@
             <v-list>
               <v-list-item
                 link
-                v-for="(item, index) in adminMenuOptions"
+                v-for="(item, index) in filteredOptions"
                 :key="index"
               >
                 <v-list-item-action>
@@ -124,7 +124,12 @@ export default {
       "adminMenuOptions",
       "role",
       "isAdmin"
-    ])
+    ]),
+    filteredOptions() {
+      return this.adminMenuOptions.filter(() => {
+        return this.isAdmin ? true : false;
+      });
+    }
   },
   methods: {
     userExit() {
