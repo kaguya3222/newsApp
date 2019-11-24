@@ -3,7 +3,8 @@ export default {
     adminMenuOptions: [
       {
         title: "Добавить новость",
-        icon: "mdi-plus-box"
+        icon: "mdi-plus-box",
+        link: "/create"
       }
     ]
   },

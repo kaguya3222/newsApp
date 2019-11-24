@@ -53,6 +53,7 @@
                 link
                 v-for="(item, index) in filteredOptions"
                 :key="index"
+                :to="item.link"
               >
                 <v-list-item-action>
                   <v-icon>{{ item.icon }}</v-icon>
