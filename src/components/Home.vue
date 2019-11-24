@@ -4,6 +4,7 @@
       v-for="(newsCard, index) in news.slice().reverse()"
       :key="index"
       :newsCardData="newsCard"
+      :index="index"
     ></app-news-card>
   </div>
 </template>

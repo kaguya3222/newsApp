@@ -80,8 +80,9 @@ export default {
           this.$store.dispatch("addNews", [
             {
               briefDescription: response.data.brief_description,
-              fullDescription: response.data.full_description,
               date: response.data.date,
+              fullDescription: response.data.full_description,
+              id: response.data.id,
               title: response.data.title
             }
           ]);

@@ -13,7 +13,9 @@
         @mouseover="active = true"
         @mouseleave="active = false"
         v-if="isAdmin"
-        ><v-icon v-if="isAdmin" v-show="active">mdi-delete</v-icon></v-btn
+        ><v-icon v-if="isAdmin" v-show="active" @click="deleteNewsCard(index)"
+          >mdi-delete</v-icon
+        ></v-btn
       >
     </v-card-title>
     <v-card-text min-height="200">
@@ -37,6 +39,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -45,10 +48,11 @@ export default {
     };
   },
   props: {
-    newsCardData: Object
+    newsCardData: Object,
+    index: Number
   },
   computed: {
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters(["isAdmin", "news"]),
     date() {
       return this.newsCardData.date.slice(0, 10);
     },
@@ -72,6 +76,15 @@ export default {
       return "";
     }
   },
-  methods: {}
+  methods: {
+    deleteNewsCard(index) {
+      console.log(this.newsCardData.id);
+      axios
+        .delete(`http://localhost:8080/delete${this.newsCardData.id}`)
+        .then(() => {
+          this.$store.dispatch("deleteNews", index);
+        });
+    }
+  }
 };
 </script>
