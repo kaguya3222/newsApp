@@ -90,6 +90,10 @@ export default {
   components: {
     "auth-input": Input
   },
-  mixins: [authorize, storageHandler, formDataHandler]
+  mixins: [authorize, storageHandler, formDataHandler],
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch("changeAuthErrorStatus", false);
+    next(true);
+  }
 };
 </script>
