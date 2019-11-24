@@ -1,7 +1,7 @@
 <template>
   <div class="news-wrapper d-flex flex-wrap full-height justify-sm-center">
     <app-news-card
-      v-for="(newsCard, index) in news"
+      v-for="(newsCard, index) in news.slice().reverse()"
       :key="index"
       :newsCardData="newsCard"
     ></app-news-card>
