@@ -17,11 +17,6 @@ const routes = [
     component: () => import("../components/registration/Reg.vue")
   },
   {
-    path: "/exit",
-    name: "Exit",
-    meta: { layout: "main" }
-  },
-  {
     path: "/auth",
     name: "Auth",
     meta: { layout: "main" },

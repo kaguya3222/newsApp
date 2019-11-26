@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" :key="login">
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
         <v-list-item Link to="/">
@@ -135,16 +135,12 @@ export default {
   methods: {
     userExit() {
       this.dialog = false;
-      this.$router.push("/exit", () => {
-        this.setLocalStorageUserData({
-          login: "",
-          name: "",
-          role: ""
-        });
-        this.$router.push("/", () => {
-          this.setUserParams("", "", "");
-        });
+      this.setLocalStorageUserData({
+        login: "",
+        name: "",
+        role: ""
       });
+      this.setUserParams("", "", "");
     }
   },
   mixins: [authorize, storageHandler]
