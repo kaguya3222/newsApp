@@ -1,5 +1,5 @@
 # newsapp
-newsApp is created and developing by Maxim Anisimov, Bohdan Bondarenko and Andrew Karpenko for National Aviation University. Project uses REST API from Java Spring framework.
+newsApp is created and developing by Maxim Anisimov, Bohdan Bondarenko, Andrew Karpenko and Egor Dolbarev for National Aviation University. Project uses REST API from Java Spring framework.
 
 ## Project setup
 ```
