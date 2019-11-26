@@ -12,11 +12,10 @@ export default {
       payLoad.forEach(el => {
         state.news.push(el);
       });
+      state.news = state.news.slice().reverse();
     },
     deleteNewsMutation(state, payLoad) {
-      const reversedNews = state.news.slice().reverse();
-      reversedNews.splice(payLoad, 1);
-      state.news = reversedNews.slice().reverse();
+      state.news.splice(payLoad, 1);
     }
   },
   actions: {
