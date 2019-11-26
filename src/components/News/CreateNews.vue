@@ -107,7 +107,7 @@ export default {
       const errors = [];
       if (!this.$v.briefDescription.$dirty) return errors;
       !this.$v.briefDescription.maxLength &&
-        errors.push("Максимальная длинна краткого описания 100 символов!");
+        errors.push("Максимальная длинна краткого описания 200 символов!");
       !this.$v.briefDescription.required &&
         errors.push("Это обязательное поле!");
       return errors;
@@ -125,7 +125,7 @@ export default {
   },
   validations: {
     title: { required, maxLength: maxLength(50) },
-    briefDescription: { required, maxLength: maxLength(100) },
+    briefDescription: { required, maxLength: maxLength(200) },
     fullDescription: { required }
   }
 };
