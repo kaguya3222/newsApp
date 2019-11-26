@@ -115,6 +115,8 @@ export default {
     fullDescriptionErrors() {
       const errors = [];
       if (!this.$v.fullDescription.$dirty) return errors;
+      !this.$v.fullDescription.maxLength &&
+        errors.push("Максимальная длинна полного описания 2500 символов!");
       !this.$v.fullDescription.required &&
         errors.push("Это обязательное поле!");
       return errors;
@@ -126,7 +128,7 @@ export default {
   validations: {
     title: { required, maxLength: maxLength(50) },
     briefDescription: { required, maxLength: maxLength(200) },
-    fullDescription: { required }
+    fullDescription: { required, maxLength: maxLength(2500) }
   }
 };
 </script>
