@@ -57,21 +57,18 @@ export default {
       return this.newsCardData.date.slice(0, 10);
     },
     briefDescription() {
-      const description = this.newsCardData.briefDescription;
-      return description.length > 100
-        ? description.slice(0, 100) + "..."
-        : description;
+      return this.newsCardData.briefDescription;
     },
     titleFontSize() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
           return "body-1";
         case "sm":
-          return "subtitle-2";
+          return "body-1";
         case "md":
-          return "subtitle-1";
+          return "subtitle-2";
         case "lg":
-          return "title";
+          return "subtitle-1";
       }
       return "";
     }
