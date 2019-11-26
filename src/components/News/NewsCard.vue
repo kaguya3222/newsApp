@@ -78,11 +78,8 @@ export default {
   },
   methods: {
     deleteNewsCard(index) {
-      axios
-        .delete(`http://localhost:8080/delete${this.newsCardData.id}`)
-        .then(() => {
-          this.$store.dispatch("deleteNews", index);
-        });
+      this.$store.dispatch("deleteNews", index);
+      axios.delete(`http://localhost:8080/delete${this.newsCardData.id}`);
     }
   }
 };
