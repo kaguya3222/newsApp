@@ -20,10 +20,10 @@
     </v-card-title>
     <v-card-text min-height="200">
       <p>{{ briefDescription }}</p>
-      <span class="font-weight-bold text-end">Date: {{ date }}</span>
+      <span class="font-weight-bold text-end">Дата: {{ date }}</span>
     </v-card-text>
     <v-card-actions class="flex-grow-2">
-      <v-btn text color="indigo" @click="show = !show">Learn more</v-btn>
+      <v-btn text color="indigo" @click="show = !show">Узнать больше</v-btn>
     </v-card-actions>
     <v-expand-transition>
       <div v-show="show">
