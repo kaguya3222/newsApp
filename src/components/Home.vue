@@ -1,12 +1,17 @@
 <template>
-  <div class="news-wrapper d-flex flex-wrap full-height justify-sm-center">
+  <transition-group
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+    class="news-wrapper d-flex flex-wrap full-height justify-sm-center"
+    tag="div"
+  >
     <app-news-card
-      v-for="(newsCard, index) in news.slice().reverse()"
-      :key="index"
+      v-for="(newsCard, index) in news"
+      :key="newsCard.id"
       :newsCardData="newsCard"
       :index="index"
     ></app-news-card>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -26,3 +31,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.animated {
+  animation-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+</style>
