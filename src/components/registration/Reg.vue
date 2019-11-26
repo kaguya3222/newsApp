@@ -46,11 +46,9 @@ export default {
   computed: {
     ...mapGetters(["regInfo", "isAuthorized"]),
     isDisabled() {
-      if (this.isSubmited) {
-        return true;
-      } else {
-        return this.checkCollectionData("regInfo", "errorStatus", true);
-      }
+      return this.isSubmited
+        ? true
+        : this.checkCollectionData("regInfo", "errorStatus", true);
     }
   },
   methods: {

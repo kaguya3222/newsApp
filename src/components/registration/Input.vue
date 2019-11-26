@@ -2,6 +2,7 @@
   <v-text-field
     :label="field.title"
     @input="onInput($event, index)"
+    :id="field.label"
     class="input-field-width"
     :type="field.type"
     :success="validateResult.isSuccess"
@@ -35,26 +36,34 @@ export default {
     }
   },
   methods: {
-    onInput(e, index) {
+    onInput(e) {
       const value = e;
       const label = this.field.label;
-
+      const delayOnInputCallbackWithArgs = this.delayOnInputCallback.bind(
+        this,
+        value,
+        label
+      );
+      this.createDelayOnInput(100, delayOnInputCallbackWithArgs);
+    },
+    createDelayOnInput(ms, callback) {
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
       this.timeout = setTimeout(() => {
-        this.$store.dispatch("changeRegInfoValue", {
-          value,
-          index
-        });
-        if (value !== "") {
-          this.checkField();
-        }
-        if (label === "Password") {
-          const confirmPasswordValue = this.regInfo[this.index + 1].value;
-          this.checkPasswordCallback(value, confirmPasswordValue);
-        }
-      }, 100);
+        callback();
+      }, ms);
+    },
+    delayOnInputCallback(value, label) {
+      this.$store.dispatch("changeRegInfoValue", {
+        value,
+        index: this.index
+      });
+      this.checkField();
+      if (label === "Password") {
+        const confirmPasswordValue = this.regInfo[this.index + 1].value;
+        this.checkPasswordCallback(value, confirmPasswordValue);
+      }
     },
     validateField(checkResult, errorMessage) {
       errorMessage = checkResult ? "" : errorMessage;
@@ -126,7 +135,11 @@ export default {
         passwordValue,
         confirmPasswordValue
       );
-      if (confirmPasswordValue !== "") {
+      if (this.field.label === "Password") {
+        if (confirmPasswordValue !== "") {
+          this.validateField(checkResult, "Пароли не совпадают!");
+        }
+      } else if (passwordValue !== "" || this.value !== "") {
         this.validateField(checkResult, "Пароли не совпадают!");
       }
     },

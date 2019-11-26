@@ -6,17 +6,19 @@ export default {
         localStorage[property] = userDataObj[property];
       }
     },
-    setUserParams(login, name) {
+    setUserParams(login, name, role) {
       this.$store.dispatch("changeUserParams", {
         login,
-        name
+        name,
+        role
       });
     },
     setUserParamsFromLocalStorage() {
-      if (localStorage.login && localStorage.name) {
+      if (localStorage.login) {
         const login = localStorage.login;
         const name = localStorage.name;
-        this.setUserParams(login, name);
+        const role = localStorage.role;
+        this.setUserParams(login, name, role);
       }
     },
     sendDataButtonClicked() {
@@ -24,10 +26,11 @@ export default {
         this.setUserParamsFromLocalStorage();
       });
     },
-    authorize(login, name) {
+    authorize(login, name, role = "READER") {
       this.setLocalStorageUserData({
         login,
-        name
+        name,
+        role
       });
       this.sendDataButtonClicked();
     }

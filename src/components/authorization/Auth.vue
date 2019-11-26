@@ -21,6 +21,7 @@
         color="indigo"
         :dark="!isDisabled"
         :disabled="isDisabled"
+        :loading="isLoading"
         @click="sendAuthData()"
         >Войти</v-btn
       >
@@ -43,12 +44,18 @@ import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      isSubmited: false
+    };
+  },
   computed: {
     ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      return this.authInfo.some(el => {
-        return el.isFilled === false;
-      });
+      return this.isSubmited
+        ? true
+        : this.checkCollectionData("authInfo", "isFilled", false);
     }
   },
   methods: {
@@ -59,20 +66,34 @@ export default {
         login,
         password
       });
+      this.buttonClicked(true);
       axios.post("http://localhost:8080/login", formData).then(response => {
-        if (response.data.isAuthorized == "true") {
-          const name = response.data.name;
-          this.authorize(login, name);
-          this.$store.dispatch("changeAuthErrorStatus", false);
-        } else {
-          this.$store.dispatch("changeAuthErrorStatus", true);
-        }
+        this.sendAuthDataCallback(response.data);
       });
+    },
+    buttonClicked(status) {
+      this.isSubmited = status;
+      this.isLoading = status;
+    },
+    sendAuthDataCallback(response) {
+      const isSuccessful = response.isAuthorized == "true";
+      this.$store.dispatch("changeAuthErrorStatus", !isSuccessful);
+      this.buttonClicked(false);
+      if (isSuccessful) {
+        const login = response.login;
+        const name = response.name;
+        const role = response.role;
+        this.authorize(login, name, role);
+      }
     }
   },
   components: {
     "auth-input": Input
   },
-  mixins: [authorize, storageHandler, formDataHandler]
+  mixins: [authorize, storageHandler, formDataHandler],
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch("changeAuthErrorStatus", false);
+    next(true);
+  }
 };
 </script>

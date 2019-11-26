@@ -4,7 +4,8 @@ export default {
   state: {
     userParams: {
       login: "",
-      name: ""
+      name: "",
+      role: ""
     }
   },
   getters: {
@@ -14,8 +15,14 @@ export default {
     name(state) {
       return state.userParams.name;
     },
+    role(state) {
+      return state.userParams.role;
+    },
     isAuthorized(state) {
       return state.userParams.login ? true : false;
+    },
+    isAdmin(state) {
+      return state.userParams.role === "ADMIN";
     }
   },
   mutations: {
