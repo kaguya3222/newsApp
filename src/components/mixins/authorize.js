@@ -6,7 +6,8 @@ export default {
         localStorage[property] = userDataObj[property];
       }
     },
-    setUserParams(login, name, role) {
+    setUserParams(userDataObj) {
+      const { login, name, role } = userDataObj;
       this.$store.dispatch("changeUserParams", {
         login,
         name,
@@ -18,7 +19,11 @@ export default {
         const login = localStorage.login;
         const name = localStorage.name;
         const role = localStorage.role;
-        this.setUserParams(login, name, role);
+        this.setUserParams({
+          login,
+          name,
+          role
+        });
       }
     },
     sendDataButtonClicked() {
