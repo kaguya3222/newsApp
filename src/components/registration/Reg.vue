@@ -6,18 +6,66 @@
       class="d-flex flex-column justify-center align-center"
       v-if="!isAuthorized"
     >
-      <reg-input
-        v-for="(field, index) in regInfo"
-        :key="index"
-        :field="field"
-        :index="index"
-      ></reg-input>
+      <v-text-field
+        v-model="form.login"
+        id="login"
+        label="Логин"
+        class="input-field-width"
+        :error-messages="loginErrors"
+        :success="!$v.form.login.$invalid"
+        @input="delayTouch($v.form.login)"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="form.name"
+        id="name"
+        label="Имя"
+        class="input-field-width"
+        :error-messages="nameErrors"
+        :success="!$v.form.name.$invalid"
+        @input="delayTouch($v.form.name)"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="form.email"
+        id="email"
+        label="Почта"
+        class="input-field-width"
+        :error-messages="emailErrors"
+        :success="!$v.form.email.$invalid"
+        @input="delayTouch($v.form.email)"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="form.password"
+        id="password"
+        label="Пароль"
+        type="password"
+        class="input-field-width"
+        :error-messages="passwordErrors"
+        :success="!$v.form.password.$invalid"
+        @input="delayTouch($v.form.password)"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="form.confirmPass"
+        id="confirm-pass"
+        label="Подтвердите пароль"
+        type="password"
+        class="input-field-width"
+        :error-messages="confirmPassErrors"
+        :success="!$v.form.confirmPass.$invalid"
+        @input="delayTouch($v.form.confirmPass)"
+      >
+      </v-text-field>
+
       <v-btn
         color="indigo"
         :disabled="isDisabled"
         :dark="!isDisabled"
         @click="sendRegData()"
         :loading="isLoading"
+        class="mt-2"
         >Зарегистрироваться</v-btn
       >
     </v-container>
@@ -29,32 +77,126 @@
 </template>
 
 <script>
-import Input from "./Input";
+import { required, sameAs, email } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate";
+import validators from "../mixins/validators.js";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import authorize from "../mixins/authorize.js";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
+import {
+  isLoginUnique,
+  isLoginValid,
+  isEmailUnique,
+  isPassValid
+} from "./regValidators.js";
+
+const touchMap = new WeakMap();
 
 export default {
   data() {
     return {
       isLoading: false,
-      isSubmited: false
+      isSubmited: false,
+      form: {
+        login: null,
+        name: null,
+        email: null,
+        password: null,
+        confirmPass: null
+      }
     };
+  },
+  validations: {
+    form: {
+      login: { required, isUnique: isLoginUnique, isValid: isLoginValid },
+      name: { required },
+      email: { required, isUnique: isEmailUnique, isValid: email },
+      password: { required, isValid: isPassValid },
+      confirmPass: { required, sameAsPassword: sameAs("password") }
+    }
   },
   computed: {
     ...mapGetters(["regInfo", "isAuthorized"]),
     isDisabled() {
-      return this.isSubmited
-        ? true
-        : this.checkCollectionData("regInfo", "errorStatus", true);
+      return this.$v.$invalid || this.isLoading;
+    },
+    loginErrors() {
+      let errors = [];
+      if (!this.$v.form.login.$dirty) return errors;
+      errors = this.shouldAppendRequiredError({
+        field: this.$v.form.login,
+        errors
+      });
+      errors = this.shouldAppendUniqueError({
+        field: this.$v.form.login,
+        errors,
+        errorMessage: "Такой логин уже есть"
+      });
+      errors = this.shouldAppendValidError({
+        field: this.$v.form.login,
+        errors,
+        errorMessage: "Логин невалиден"
+      });
+      return errors;
+    },
+    nameErrors() {
+      let errors = [];
+      if (!this.$v.form.name.$dirty) return errors;
+      errors = this.shouldAppendRequiredError({
+        field: this.$v.form.name,
+        errors
+      });
+      return errors;
+    },
+    emailErrors() {
+      let errors = [];
+      if (!this.$v.form.email.$dirty) return errors;
+      errors = this.shouldAppendRequiredError({
+        field: this.$v.form.email,
+        errors
+      });
+      errors = this.shouldAppendUniqueError({
+        field: this.$v.form.email,
+        errors,
+        errorMessage: "Такой емейл уже есть!"
+      });
+      errors = this.shouldAppendValidError({
+        field: this.$v.form.email,
+        errors,
+        errorMessage: "Неверный формат почты"
+      });
+      return errors;
+    },
+    passwordErrors() {
+      let errors = [];
+      if (!this.$v.form.password.$dirty) return errors;
+      errors = this.shouldAppendRequiredError({
+        field: this.$v.form.password,
+        errors
+      });
+      errors = this.shouldAppendValidError({
+        field: this.$v.form.password,
+        errors,
+        errorMessage:
+          "Пароль должен иметь минимум 8 символов, 1 заглавную букву и состоять из латинских букв и знаков"
+      });
+      return errors;
+    },
+    confirmPassErrors() {
+      const errors = [];
+      if (!this.$v.form.confirmPass.$dirty) return errors;
+      !this.$v.form.confirmPass.sameAsPassword &&
+        errors.push("Пароли не совпадают!");
+      return errors;
     }
   },
   methods: {
-    sendRegData() {
-      const regData = this.getCollectionData("regInfo", "value");
-      const [login, name, email, password] = regData;
+    async sendRegData() {
+      this.$v.form.$touch();
+      if (this.$v.form.$invalid) return true;
+      const { login, name, email, password } = this.form;
       const formData = this.createAndFillFormData({
         login,
         name,
@@ -62,20 +204,28 @@ export default {
         password
       });
       this.buttonClicked(true);
-
-      axios.post("http://localhost:8080/register", formData).then(() => {
-        this.buttonClicked(false);
-        this.authorize(login, name);
-      });
+      await axios.post("http://localhost:8080/register", formData);
+      this.buttonClicked(false);
+      this.authorize(login, name);
     },
     buttonClicked(status) {
       this.isLoading = status;
       this.isSubmited = status;
+    },
+    delayTouch($v) {
+      $v.$reset();
+      if (touchMap.has($v)) {
+        clearTimeout(touchMap.get($v));
+      }
+      touchMap.set($v, setTimeout($v.$touch, 350));
     }
   },
-  components: {
-    "reg-input": Input
-  },
-  mixins: [authorize, storageHandler, formDataHandler]
+  mixins: [
+    authorize,
+    storageHandler,
+    formDataHandler,
+    validationMixin,
+    validators
+  ]
 };
 </script>
