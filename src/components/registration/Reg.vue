@@ -125,70 +125,87 @@ export default {
     loginErrors() {
       let errors = [];
       if (!this.$v.form.login.$dirty) return errors;
-      errors = this.shouldAppendRequiredError({
-        field: this.$v.form.login,
-        errors
-      });
-      errors = this.shouldAppendUniqueError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.login,
         errors,
-        errorMessage: "Такой логин уже есть"
+        errorMessage: "Это поле обязательно!",
+        errorType: "required"
       });
-      errors = this.shouldAppendValidError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.login,
         errors,
-        errorMessage: "Логин невалиден"
+        errorMessage: "Такой логин уже есть",
+        errorType: "isUnique"
+      });
+      errors = this.checkIfErrorShouldAppend({
+        field: this.$v.form.login,
+        errors,
+        errorMessage: "Логин невалиден",
+        errorType: "isValid"
       });
       return errors;
     },
     nameErrors() {
       let errors = [];
       if (!this.$v.form.name.$dirty) return errors;
-      errors = this.shouldAppendRequiredError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.name,
-        errors
+        errors,
+        errorMessage: "Это поле обязательно!",
+        errorType: "required"
       });
       return errors;
     },
     emailErrors() {
       let errors = [];
       if (!this.$v.form.email.$dirty) return errors;
-      errors = this.shouldAppendRequiredError({
-        field: this.$v.form.email,
-        errors
-      });
-      errors = this.shouldAppendUniqueError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.email,
         errors,
-        errorMessage: "Такой емейл уже есть!"
+        errorMessage: "Это поле обязательно!",
+        errorType: "required"
       });
-      errors = this.shouldAppendValidError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.email,
         errors,
-        errorMessage: "Неверный формат почты"
+        errorMessage: "Такой емейл уже есть!",
+        errorType: "isUnique"
+      });
+      errors = this.checkIfErrorShouldAppend({
+        field: this.$v.form.email,
+        errors,
+        errorMessage: "Неверный формат почты",
+        errorType: "isValid"
       });
       return errors;
     },
     passwordErrors() {
       let errors = [];
       if (!this.$v.form.password.$dirty) return errors;
-      errors = this.shouldAppendRequiredError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.password,
-        errors
+        errors,
+        errorMessage: "Это поле обязательно!",
+        errorType: "required"
       });
-      errors = this.shouldAppendValidError({
+      errors = this.checkIfErrorShouldAppend({
         field: this.$v.form.password,
         errors,
         errorMessage:
-          "Пароль должен иметь минимум 8 символов, 1 заглавную букву и состоять из латинских букв и знаков"
+          "Пароль должен иметь минимум 8 символов, 1 заглавную букву и состоять из латинских букв и знаков",
+        errorType: "isValid"
       });
       return errors;
     },
     confirmPassErrors() {
-      const errors = [];
+      let errors = [];
       if (!this.$v.form.confirmPass.$dirty) return errors;
-      !this.$v.form.confirmPass.sameAsPassword &&
-        errors.push("Пароли не совпадают!");
+      errors = this.checkIfErrorShouldAppend({
+        field: this.$v.form.confirmPass,
+        errors,
+        errorMessage: "Пароли не совпадают!",
+        errorType: "sameAsPassword"
+      });
       return errors;
     }
   },
