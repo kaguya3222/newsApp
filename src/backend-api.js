@@ -1,6 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  // baseURL: "https://vuejs-news-app.herokuapp.com/"
-  baseURL: "https://vuejs-news-app.herokuapp.com"
+  baseURL: "https://spring-boot-rest-api-app.herokuapp.com"
 });
