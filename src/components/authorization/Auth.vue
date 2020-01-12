@@ -38,7 +38,7 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
-import axios from "axios";
+import AXIOS from "../../backend-api.js";
 import authorize from "../mixins/authorize.js";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
@@ -67,7 +67,7 @@ export default {
         password
       });
       this.buttonClicked(true);
-      axios.post("https://spring-boot-rest-api-app.herokuapp.com/login", formData).then(response => {
+      AXIOS.post("/login", formData).then(response => {
         this.sendAuthDataCallback(response.data);
       });
     },

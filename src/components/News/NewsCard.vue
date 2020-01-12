@@ -58,7 +58,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from "axios";
+import AXIOS from "../../backend-api.js";
 export default {
   data() {
     return {
@@ -96,7 +96,7 @@ export default {
   methods: {
     deleteNewsCard(index) {
       this.$store.dispatch("deleteNews", index);
-      axios.delete(`https://spring-boot-rest-api-app.herokuapp.com/delete${this.newsCardData.id}`);
+      AXIOS.delete(`/delete${this.newsCardData.id}`);
     }
   }
 };

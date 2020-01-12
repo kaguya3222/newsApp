@@ -1,14 +1,11 @@
-import axios from "axios";
+import AXIOS from "../../backend-api.js";
 
 export async function isLoginUnique(value) {
   if (value === null) return true;
   const formData = new FormData();
   formData.append("login", value);
 
-  const response = await axios.post(
-    "https://spring-boot-rest-api-app.herokuapp.com/checkLogin",
-    formData
-  );
+  const response = await AXIOS.post("/checkLogin", formData);
   return !response.data.isExist;
 }
 
@@ -24,10 +21,7 @@ export async function isEmailUnique(value) {
   const formData = new FormData();
   formData.append("email", value);
 
-  const response = await axios.post(
-    "https://spring-boot-rest-api-app.herokuapp.com/checkEmail",
-    formData
-  );
+  const response = await AXIOS.post("/checkEmail", formData);
 
   return !response.data.isExist;
 }

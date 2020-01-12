@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import AXIOS from "../../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
@@ -68,7 +68,7 @@ export default {
         title: this.title
       });
       this.changeIsLoadingStatus();
-      axios.post("https://spring-boot-rest-api-app.herokuapp.com/add", formData).then(response => {
+      AXIOS.post("/add", formData).then(response => {
         this.sendCreateRequestCallback(response);
       });
     },

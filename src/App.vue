@@ -8,7 +8,8 @@
 import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
 import authorize from "./components/mixins/authorize.js";
-import axios from "axios";
+
+import AXIOS from "./backend-api.js";
 
 export default {
   data() {
@@ -24,7 +25,7 @@ export default {
   },
   methods: {
     getNews() {
-      return axios.get("https://spring-boot-rest-api-app.herokuapp.com/getAll");
+      return AXIOS.get("/getAll");
     }
   },
   components: {

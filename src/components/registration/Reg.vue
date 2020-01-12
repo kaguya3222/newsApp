@@ -81,7 +81,7 @@ import { required, sameAs, email } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import validators from "../mixins/validators.js";
 import { mapGetters } from "vuex";
-import axios from "axios";
+import AXIOS from "../../backend-api.js";
 import authorize from "../mixins/authorize.js";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
@@ -221,7 +221,7 @@ export default {
         password
       });
       this.buttonClicked(true);
-      await axios.post("https://spring-boot-rest-api-app.herokuapp.com/register", formData);
+      await AXIOS.post("/register", formData);
       this.buttonClicked(false);
       this.authorize(login, name);
     },
