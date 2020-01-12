@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     getNews() {
-      return axios.get("http://localhost:8080/getAll");
+      return axios.get("https://spring-boot-rest-api-app.herokuapp.com/getAll");
     }
   },
   components: {

@@ -68,7 +68,7 @@ export default {
         title: this.title
       });
       this.changeIsLoadingStatus();
-      axios.post("http://localhost:8080/add", formData).then(response => {
+      axios.post("https://spring-boot-rest-api-app.herokuapp.com/add", formData).then(response => {
         this.sendCreateRequestCallback(response);
       });
     },

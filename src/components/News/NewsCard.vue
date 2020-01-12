@@ -96,7 +96,7 @@ export default {
   methods: {
     deleteNewsCard(index) {
       this.$store.dispatch("deleteNews", index);
-      axios.delete(`http://localhost:8080/delete${this.newsCardData.id}`);
+      axios.delete(`https://spring-boot-rest-api-app.herokuapp.com/delete${this.newsCardData.id}`);
     }
   }
 };

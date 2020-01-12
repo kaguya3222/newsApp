@@ -67,7 +67,7 @@ export default {
         password
       });
       this.buttonClicked(true);
-      axios.post("http://localhost:8080/login", formData).then(response => {
+      axios.post("https://spring-boot-rest-api-app.herokuapp.com/login", formData).then(response => {
         this.sendAuthDataCallback(response.data);
       });
     },

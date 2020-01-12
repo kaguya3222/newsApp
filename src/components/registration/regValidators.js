@@ -6,7 +6,7 @@ export async function isLoginUnique(value) {
   formData.append("login", value);
 
   const response = await axios.post(
-    "http://localhost:8080/checkLogin",
+    "https://spring-boot-rest-api-app.herokuapp.com/checkLogin",
     formData
   );
   return !response.data.isExist;
@@ -25,7 +25,7 @@ export async function isEmailUnique(value) {
   formData.append("email", value);
 
   const response = await axios.post(
-    "http://localhost:8080/checkEmail",
+    "https://spring-boot-rest-api-app.herokuapp.com/checkEmail",
     formData
   );
 

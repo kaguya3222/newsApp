@@ -221,7 +221,7 @@ export default {
         password
       });
       this.buttonClicked(true);
-      await axios.post("http://localhost:8080/register", formData);
+      await axios.post("https://spring-boot-rest-api-app.herokuapp.com/register", formData);
       this.buttonClicked(false);
       this.authorize(login, name);
     },
