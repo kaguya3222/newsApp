@@ -13,7 +13,7 @@
         @mouseover="active = true"
         @mouseleave="active = false"
         v-if="isAdmin"
-        ><v-icon v-if="isAdmin" v-show="active" @click="deleteNewsCard(index)"
+        ><v-icon v-if="isAdmin" v-show="active" @click="dialog = true"
           >mdi-delete</v-icon
         ></v-btn
       >
@@ -34,6 +34,25 @@
         </v-card-text>
       </div>
     </v-expand-transition>
+    <v-dialog v-model="dialog" max-width="550">
+      <v-card>
+        <v-card-title class="headline"
+          >Вы уверены что хотите удалить новость?</v-card-title
+        >
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Нет
+          </v-btn>
+
+          <v-btn color="red darken-1" text @click="deleteNewsCard(index)">
+            Да
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -44,7 +63,8 @@ export default {
   data() {
     return {
       show: false,
-      active: false
+      active: false,
+      dialog: null
     };
   },
   props: {
