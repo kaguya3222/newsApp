@@ -4,6 +4,7 @@ export default {
       {
         value: "",
         label: "Login",
+        title: "Логин",
         commonError:
           "Логин должен начинаться с буквы и состоять из латинских букв.",
         pattern: /^[a-zA-Z][a-zA-Z0-9-.]{1,20}$/,
@@ -15,6 +16,7 @@ export default {
       {
         value: "",
         label: "Name",
+        title: "Имя",
         pattern: /^[a-zA-Z]+$/,
         commonError: "Имя должно состоять из латинских букв.",
         requestName: "",
@@ -25,6 +27,7 @@ export default {
       {
         value: "",
         label: "Email",
+        title: "Почта",
         pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
         commonError: "Некорректная почта.",
         requestName: "checkEmail",
@@ -35,6 +38,7 @@ export default {
       {
         value: "",
         label: "Password",
+        title: "Пароль",
         pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
         commonError:
           "Пароль должен иметь минимум 8 символов, 1 заглавную букву и состоять из латинских букв и знаков",
@@ -46,6 +50,7 @@ export default {
       {
         value: "",
         label: "Confirm password",
+        title: "Подтвердите пароль",
         pattern: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
         requestName: "",
         existsError: "",
