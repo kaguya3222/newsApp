@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.3e71737e4bb0040b8d7234773df7a900.js"
+  "/precache-manifest.47c7ca68111a628296e307379c4504b6.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "newsapp"});
