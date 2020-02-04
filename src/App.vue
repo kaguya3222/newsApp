@@ -7,9 +7,9 @@
 <script>
 import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
-import authorize from "./components/mixins/authorize.js";
+import userMethods from "./components/mixins/user-data-methods";
 
-import AXIOS from "./backend-api.js";
+import { AXIOS } from "./backend-api.js";
 
 export default {
   data() {
@@ -31,10 +31,10 @@ export default {
   components: {
     "main-layout": MainLayout
   },
-  mixins: [authorize],
+  mixins: [userMethods],
   created() {
     this.createdCounter++;
-    this.setUserParamsFromLocalStorage();
+    this.authorize();
     if (this.createdOnce) {
       this.getNews().then(response => {
         this.$store.dispatch("addNews", response.data);
