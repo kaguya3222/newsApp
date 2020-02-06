@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import AXIOS from "../../backend-api.js";
+import { AXIOS } from "../../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
@@ -49,8 +49,10 @@ import { required, maxLength } from "vuelidate/lib/validators";
 import formDataHandler from "../mixins/formDataHandler.js";
 import { mapGetters } from "vuex";
 
+import tokens from "../mixins/tokens";
+
 export default {
-  mixins: [validationMixin, formDataHandler],
+  mixins: [validationMixin, formDataHandler, tokens],
   data() {
     return {
       title: "",
@@ -60,17 +62,22 @@ export default {
     };
   },
   methods: {
-    sendCreateRequest() {
-      const formData = this.createAndFillFormData({
-        login: this.login,
-        briefDescription: this.briefDescription,
-        fullDescription: this.fullDescription,
-        title: this.title
-      });
+    async sendCreateRequest() {
       this.changeIsLoadingStatus();
-      AXIOS.post("/add", formData).then(response => {
-        this.sendCreateRequestCallback(response);
+      this.doTokenRequiredAction({ action: this.createNews });
+    },
+    async createNews() {
+      const formData = this.createAndFillFormData({
+        paramsObj: {
+          login: this.login,
+          briefDescription: this.briefDescription,
+          fullDescription: this.fullDescription,
+          title: this.title,
+          token: localStorage.getItem("ACCESS_TOKEN") || null
+        }
       });
+      const response = await AXIOS.post("/add", formData);
+      this.sendCreateRequestCallback(response);
     },
     sendCreateRequestCallback(response) {
       const isAdded = response.data.isAdded == "true";
