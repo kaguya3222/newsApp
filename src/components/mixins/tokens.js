@@ -2,6 +2,7 @@ import { AXIOS } from "../../backend-api";
 import userDataMethods from "./user-data-methods";
 import formDataHandler from "./formDataHandler";
 import { mapActions } from "vuex";
+import fingerprint from "./fingerprint";
 
 export default {
   methods: {
@@ -27,7 +28,7 @@ export default {
       }
       const response = await AXIOS.post(
         "/refresh",
-        this.fillRefreshTokenData()
+        await this.fillRefreshTokenData()
       );
       if (response.data.status === "OK") {
         this.setTokens({
@@ -43,11 +44,12 @@ export default {
       localStorage.removeItem("ACCESS_TOKEN");
       localStorage.removeItem("REFRESH_TOKEN");
     },
-    fillRefreshTokenData() {
+    async fillRefreshTokenData() {
+      const fingerprint = await this.getFingerPrint();
       return this.createAndFillFormData({
         paramsObj: {
           refreshToken: localStorage.getItem("REFRESH_TOKEN"),
-          fingerprint: "fingerPrint"
+          fingerprint
         }
       });
     },
@@ -62,5 +64,5 @@ export default {
       }
     }
   },
-  mixins: [userDataMethods, formDataHandler]
+  mixins: [userDataMethods, formDataHandler, fingerprint]
 };
