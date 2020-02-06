@@ -44,6 +44,7 @@ import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 import tokens from "../mixins/tokens.js";
+import fingerprint from "../mixins/fingerprint";
 
 export default {
   data() {
@@ -61,14 +62,14 @@ export default {
     }
   },
   methods: {
-    sendAuthData() {
+    async sendAuthData() {
       const authData = this.getCollectionData("authInfo", "value");
       const [login, password] = authData;
-      const fingerprint = "fingerPrint";
+      this.buttonClicked({ status: true });
+      const fingerprint = await this.getFingerPrint();
       const formData = this.createAndFillFormData({
         paramsObj: { login, password, fingerprint }
       });
-      this.buttonClicked({ status: true });
       AXIOS.post("/login", formData).then(response => {
         this.sendAuthDataCallback({ response: response.data });
       });
@@ -89,7 +90,7 @@ export default {
   components: {
     "auth-input": Input
   },
-  mixins: [userMethods, storageHandler, formDataHandler, tokens],
+  mixins: [userMethods, storageHandler, formDataHandler, tokens, fingerprint],
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch("changeAuthErrorStatus", false);
     next(true);
