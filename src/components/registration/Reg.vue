@@ -81,8 +81,9 @@ import { required, sameAs, email } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import validators from "../mixins/validators.js";
 import { mapGetters } from "vuex";
-import AXIOS from "../../backend-api.js";
-import authorize from "../mixins/authorize.js";
+import { AXIOS } from "../../backend-api.js";
+import userMethods from "../mixins/user-data-methods";
+import tokens from "../mixins/tokens";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 import {
@@ -215,15 +216,12 @@ export default {
       if (this.$v.form.$invalid) return true;
       const { login, name, email, password } = this.form;
       const formData = this.createAndFillFormData({
-        login,
-        name,
-        email,
-        password
+        paramsObj: { login, name, email, password, fingerprint: "fingerPrint" }
       });
       this.buttonClicked(true);
-      await AXIOS.post("/register", formData);
+      const response = await AXIOS.post("/register", formData);
       this.buttonClicked(false);
-      this.authorize(login, name);
+      this.sendDataButtonClicked({ data: response.data });
     },
     buttonClicked(status) {
       this.isLoading = status;
@@ -238,7 +236,8 @@ export default {
     }
   },
   mixins: [
-    authorize,
+    userMethods,
+    tokens,
     storageHandler,
     formDataHandler,
     validationMixin,
