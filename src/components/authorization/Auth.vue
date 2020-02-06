@@ -38,10 +38,12 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
-import AXIOS from "../../backend-api.js";
-import authorize from "../mixins/authorize.js";
+import { AXIOS } from "../../backend-api.js";
+
+import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
+import tokens from "../mixins/tokens.js";
 
 export default {
   data() {
@@ -62,35 +64,32 @@ export default {
     sendAuthData() {
       const authData = this.getCollectionData("authInfo", "value");
       const [login, password] = authData;
+      const fingerprint = "fingerPrint";
       const formData = this.createAndFillFormData({
-        login,
-        password
+        paramsObj: { login, password, fingerprint }
       });
-      this.buttonClicked(true);
+      this.buttonClicked({ status: true });
       AXIOS.post("/login", formData).then(response => {
-        this.sendAuthDataCallback(response.data);
+        this.sendAuthDataCallback({ response: response.data });
       });
     },
-    buttonClicked(status) {
+    buttonClicked({ status }) {
       this.isSubmited = status;
       this.isLoading = status;
     },
-    sendAuthDataCallback(response) {
-      const isSuccessful = response.isAuthorized == "true";
-      this.$store.dispatch("changeAuthErrorStatus", !isSuccessful);
-      this.buttonClicked(false);
-      if (isSuccessful) {
-        const login = response.login;
-        const name = response.name;
-        const role = response.role;
-        this.authorize(login, name, role);
+    sendAuthDataCallback({ response }) {
+      const isWrong = response.accessToken == null;
+      this.$store.dispatch("changeAuthErrorStatus", isWrong);
+      this.buttonClicked({ status: false });
+      if (!isWrong) {
+        this.sendDataButtonClicked({ data: response });
       }
     }
   },
   components: {
     "auth-input": Input
   },
-  mixins: [authorize, storageHandler, formDataHandler],
+  mixins: [userMethods, storageHandler, formDataHandler, tokens],
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch("changeAuthErrorStatus", false);
     next(true);
