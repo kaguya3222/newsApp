@@ -92,6 +92,7 @@ import {
   isEmailUnique,
   isPassValid
 } from "./regValidators.js";
+import fingerprint from "../mixins/fingerprint";
 
 const touchMap = new WeakMap();
 
@@ -215,8 +216,9 @@ export default {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return true;
       const { login, name, email, password } = this.form;
+      const fingerprint = await this.getFingerPrint();
       const formData = this.createAndFillFormData({
-        paramsObj: { login, name, email, password, fingerprint: "fingerPrint" }
+        paramsObj: { login, name, email, password, fingerprint }
       });
       this.buttonClicked(true);
       const response = await AXIOS.post("/register", formData);
@@ -241,7 +243,8 @@ export default {
     storageHandler,
     formDataHandler,
     validationMixin,
-    validators
+    validators,
+    fingerprint
   ]
 };
 </script>
