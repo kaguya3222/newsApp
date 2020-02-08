@@ -4,14 +4,12 @@ export default {
       {
         label: "Login",
         title: "Логин",
-        value: "",
         type: "text",
         isFilled: false
       },
       {
         label: "Password",
         title: "Пароль",
-        value: "",
         type: "password",
         isFilled: false
       }
