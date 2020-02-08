@@ -11,6 +11,7 @@
         :field="field"
         :index="index"
         :key="index"
+        @form-changed="onFormChanged($event)"
       ></auth-input>
       <div v-if="errorStatus" class="animated fadeIn">
         <p class="error-text">
@@ -49,6 +50,10 @@ import fingerprint from "../mixins/fingerprint";
 export default {
   data() {
     return {
+      form: {
+        login: null,
+        password: null
+      },
       isLoading: false,
       isSubmited: false
     };
@@ -56,23 +61,19 @@ export default {
   computed: {
     ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      return this.isSubmited
-        ? true
-        : this.checkCollectionData("authInfo", "isFilled", false);
+      return this.isSubmited ? true : !(this.form.login && this.form.password);
     }
   },
   methods: {
     async sendAuthData() {
-      const authData = this.getCollectionData("authInfo", "value");
-      const [login, password] = authData;
       this.buttonClicked({ status: true });
       const fingerprint = await this.getFingerPrint();
+      const { login, password } = this.form;
       const formData = this.createAndFillFormData({
         paramsObj: { login, password, fingerprint }
       });
-      AXIOS.post("/login", formData).then(response => {
-        this.sendAuthDataCallback({ response: response.data });
-      });
+      const response = await AXIOS.post("/login", formData);
+      this.sendAuthDataCallback({ response: response.data });
     },
     buttonClicked({ status }) {
       this.isSubmited = status;
@@ -85,6 +86,9 @@ export default {
       if (!isWrong) {
         this.sendDataButtonClicked({ data: response });
       }
+    },
+    onFormChanged(e) {
+      this.form[e.fieldName] = e.value;
     }
   },
   components: {
