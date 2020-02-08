@@ -120,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["regInfo", "isAuthorized"]),
+    ...mapGetters(["isAuthorized"]),
     isDisabled() {
       return this.$v.$invalid || this.isLoading;
     },
