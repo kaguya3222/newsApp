@@ -1,4 +1,4 @@
-import { AXIOS } from "../../backend-api";
+import AXIOS from "../../backend-api";
 
 export async function isLoginUnique(value) {
   if (value === null) return true;

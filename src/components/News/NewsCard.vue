@@ -58,7 +58,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { AXIOS } from "../../backend-api.js";
+import AXIOS from "../../backend-api.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 export default {
   data() {

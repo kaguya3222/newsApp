@@ -1,4 +1,4 @@
-import { AXIOS } from "../../backend-api";
+import AXIOS from "../../backend-api";
 import userDataMethods from "./user-data-methods";
 import formDataHandler from "./formDataHandler";
 import { mapActions } from "vuex";

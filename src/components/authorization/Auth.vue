@@ -39,7 +39,7 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
-import { AXIOS } from "../../backend-api.js";
+import AXIOS from "../../backend-api.js";
 
 import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";

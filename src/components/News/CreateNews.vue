@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { AXIOS } from "../../backend-api.js";
+import AXIOS from "../../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";

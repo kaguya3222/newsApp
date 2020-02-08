@@ -9,7 +9,7 @@ import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
 import userMethods from "./components/mixins/user-data-methods";
 
-import { AXIOS } from "./backend-api.js";
+import AXIOS from "./backend-api.js";
 
 export default {
   data() {
