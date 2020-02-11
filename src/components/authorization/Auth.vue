@@ -39,7 +39,7 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
-import AXIOS from "../../backend-api.js";
+import API from "../../backend-api.js";
 
 import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";
@@ -72,7 +72,7 @@ export default {
       const formData = this.createAndFillFormData({
         paramsObj: { login, password, fingerprint }
       });
-      const response = await AXIOS.post("/login", formData);
+      const response = await API.login({ formData });
       this.sendAuthDataCallback({ response: response.data });
     },
     buttonClicked({ status }) {
