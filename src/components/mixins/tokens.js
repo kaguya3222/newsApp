@@ -1,4 +1,4 @@
-import AXIOS from "../../backend-api";
+import API from "../../backend-api";
 import userDataMethods from "./user-data-methods";
 import formDataHandler from "./formDataHandler";
 import { mapActions } from "vuex";
@@ -26,10 +26,9 @@ export default {
         this.userExit({ path: "/auth" });
         return false;
       }
-      const response = await AXIOS.post(
-        "/refresh",
-        await this.fillRefreshTokenData()
-      );
+      const response = await API.refreshTokens({
+        refreshTokenData: this.illRefreshTokenData()
+      });
       if (response.data.status === "OK") {
         this.setTokens({
           data: {
