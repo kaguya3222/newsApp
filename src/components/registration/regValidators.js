@@ -1,11 +1,14 @@
-import AXIOS from "../../backend-api";
+import API from "../../backend-api";
 
 export async function isLoginUnique(value) {
   if (value === null) return true;
   const formData = new FormData();
   formData.append("login", value);
 
-  const response = await AXIOS.post("/checkLogin", formData);
+  const response = await API.checkDataUniqueness({
+    data: formData,
+    dataTitle: "Login"
+  });
   return !response.data.isExist;
 }
 
@@ -21,7 +24,10 @@ export async function isEmailUnique(value) {
   const formData = new FormData();
   formData.append("email", value);
 
-  const response = await AXIOS.post("/checkEmail", formData);
+  const response = await API.checkDataUniqueness({
+    data: formData,
+    dataTitle: "Email"
+  });
 
   return !response.data.isExist;
 }
