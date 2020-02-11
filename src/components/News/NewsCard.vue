@@ -58,7 +58,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AXIOS from "../../backend-api.js";
+import API from "../../backend-api.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 export default {
   data() {
@@ -96,13 +96,13 @@ export default {
   },
   methods: {
     deleteNewsCard(index) {
-      const formData = this.createAndFillFormData({
+      const tokenData = this.createAndFillFormData({
         paramsObj: {
           token: localStorage.getItem("ACCESS_TOKEN") || null
         }
       });
       this.$store.dispatch("deleteNews", index);
-      AXIOS.post(`/delete${this.newsCardData.id}`, formData);
+      API.deleteNewsCard({ tokenData });
     }
   },
   mixins: [formDataHandler]
