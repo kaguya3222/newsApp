@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import AXIOS from "../../backend-api.js";
+import API from "../../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
@@ -67,7 +67,7 @@ export default {
       this.doTokenRequiredAction({ action: this.createNews });
     },
     async createNews() {
-      const formData = this.createAndFillFormData({
+      const newsCardData = this.createAndFillFormData({
         paramsObj: {
           login: this.login,
           briefDescription: this.briefDescription,
@@ -76,7 +76,7 @@ export default {
           token: localStorage.getItem("ACCESS_TOKEN") || null
         }
       });
-      const response = await AXIOS.post("/add", formData);
+      const response = await API.createNewsCard({ newsCardData });
       this.sendCreateRequestCallback(response);
     },
     sendCreateRequestCallback(response) {
