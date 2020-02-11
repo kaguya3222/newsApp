@@ -1,32 +1,25 @@
 import axios from "axios";
 
-const AXIOS = axios.create({
-  baseURL: "https://spring-boot-rest-api-app.herokuapp.com",
-  headers: {
-    "Access-Control-Allow-Origin": "http://vuejs-news-app.herokuapp.com/"
-  }
-});
-
 export default {
   async login({ formData }) {
-    return await AXIOS.post("/login", formData);
+    return await axios.post("/login", formData);
   },
   async refreshTokens({ refreshTokenData }) {
-    return await AXIOS.post("/refresh", refreshTokenData);
+    return await axios.post("/refresh", refreshTokenData);
   },
   async createNewsCard({ newsCardData }) {
-    return await AXIOS.post("/add", newsCardData);
+    return await axios.post("/add", newsCardData);
   },
   async deleteNewsCard({ tokenData }) {
-    AXIOS.post(`/delete${this.newsCardData.id}`, tokenData);
+    axios.post(`/delete${this.newsCardData.id}`, tokenData);
   },
   async register({ regData }) {
-    return await AXIOS.post("/register", regData);
+    return await axios.post("/register", regData);
   },
   async checkDataUniqueness({ data, dataTitle }) {
-    return await AXIOS.post(`/check${dataTitle}`, data);
+    return await axios.post(`/check${dataTitle}`, data);
   },
   async getNews() {
-    return await AXIOS.get("/getAll");
+    return await axios.get("/getAll");
   }
 };
