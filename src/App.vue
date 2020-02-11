@@ -9,7 +9,7 @@ import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
 import userMethods from "./components/mixins/user-data-methods";
 
-import AXIOS from "./backend-api.js";
+import API from "./backend-api.js";
 
 export default {
   data() {
@@ -23,11 +23,6 @@ export default {
       return this.createdCounter === 1;
     }
   },
-  methods: {
-    getNews() {
-      return AXIOS.get("/getAll");
-    }
-  },
   components: {
     "main-layout": MainLayout
   },
@@ -36,7 +31,7 @@ export default {
     this.createdCounter++;
     this.authorize();
     if (this.createdOnce) {
-      this.getNews().then(response => {
+      API.getNews().then(response => {
         this.$store.dispatch("addNews", response.data);
       });
     }
