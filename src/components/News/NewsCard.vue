@@ -47,7 +47,11 @@
             Нет
           </v-btn>
 
-          <v-btn color="red darken-1" text @click="deleteNewsCard(index)">
+          <v-btn
+            color="red darken-1"
+            text
+            @click="doTokenRequiredAction({ action: deleteNewsCard })"
+          >
             Да
           </v-btn>
         </v-card-actions>
@@ -60,6 +64,7 @@
 import { mapGetters } from "vuex";
 import API from "../../backend-api.js";
 import formDataHandler from "../mixins/formDataHandler.js";
+import tokens from "../mixins/tokens";
 export default {
   data() {
     return {
@@ -95,16 +100,17 @@ export default {
     }
   },
   methods: {
-    deleteNewsCard(index) {
+    deleteNewsCard() {
+      const newsCardId = this.newsCardData.id;
       const tokenData = this.createAndFillFormData({
         paramsObj: {
           token: localStorage.getItem("ACCESS_TOKEN") || null
         }
       });
-      this.$store.dispatch("deleteNews", index);
-      API.deleteNewsCard({ tokenData });
+      this.$store.dispatch("deleteNews", this.index);
+      API.deleteNewsCard({ tokenData, newsCardId });
     }
   },
-  mixins: [formDataHandler]
+  mixins: [formDataHandler, tokens]
 };
 </script>

@@ -10,8 +10,8 @@ export default {
   async createNewsCard({ newsCardData }) {
     return await axios.post("/add", newsCardData);
   },
-  async deleteNewsCard({ tokenData }) {
-    axios.post(`/delete${this.newsCardData.id}`, tokenData);
+  async deleteNewsCard({ tokenData, newsCardId }) {
+    axios.post(`/delete${newsCardId}`, tokenData);
   },
   async register({ regData }) {
     return await axios.post("/register", regData);
