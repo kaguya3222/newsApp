@@ -10,9 +10,8 @@ export default {
   mutations: {
     addNewsMutation(state, payLoad) {
       payLoad.forEach(el => {
-        state.news.push(el);
+        state.news.unshift(el);
       });
-      state.news = state.news.slice().reverse();
     },
     deleteNewsMutation(state, payLoad) {
       state.news.splice(payLoad, 1);

@@ -8,7 +8,7 @@ export default {
      * Creates and fill form data object.
      * @param {object} paramsObj - Object of form data parameters.
      */
-    createAndFillFormData(paramsObj) {
+    createAndFillFormData({ paramsObj }) {
       const formData = new FormData();
       for (const param in paramsObj) {
         formData.append(param, paramsObj[param]);
