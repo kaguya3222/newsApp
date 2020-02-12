@@ -20,7 +20,6 @@ export default {
     return await Vue.axios.post(`/check${dataTitle}`, data);
   },
   async getNews() {
-    console.log(Vue.axios.get);
     return await Vue.axios.get("/getAll");
   }
 };
