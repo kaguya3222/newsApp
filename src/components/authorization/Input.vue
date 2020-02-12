@@ -23,9 +23,9 @@ export default {
   methods: {
     onInput(e) {
       const value = e;
-      this.$store.dispatch("changeFieldValue", {
-        index: this.index,
-        value
+      this.$emit("form-changed", {
+        value,
+        fieldName: this.field.label.toLowerCase()
       });
       this.checkIsFilled();
     },

@@ -3,9 +3,9 @@ import Vue from "vue";
 export default {
   state: {
     userParams: {
-      login: "",
-      name: "",
-      role: ""
+      login: null,
+      name: null,
+      role: null
     }
   },
   getters: {
@@ -19,7 +19,7 @@ export default {
       return state.userParams.role;
     },
     isAuthorized(state) {
-      return state.userParams.login ? true : false;
+      return state.userParams.login === null ? false : true;
     },
     isAdmin(state) {
       return state.userParams.role === "ADMIN";

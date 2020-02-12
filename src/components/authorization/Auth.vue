@@ -11,6 +11,7 @@
         :field="field"
         :index="index"
         :key="index"
+        @form-changed="onFormChanged($event)"
       ></auth-input>
       <div v-if="errorStatus" class="animated fadeIn">
         <p class="error-text">
@@ -38,14 +39,21 @@ import Input from "./Input";
 
 import { mapGetters } from "vuex";
 
-import AXIOS from "../../backend-api.js";
-import authorize from "../mixins/authorize.js";
+import API from "../../backend-api.js";
+
+import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
+import tokens from "../mixins/tokens.js";
+import fingerprint from "../mixins/fingerprint";
 
 export default {
   data() {
     return {
+      form: {
+        login: null,
+        password: null
+      },
       isLoading: false,
       isSubmited: false
     };
@@ -53,44 +61,40 @@ export default {
   computed: {
     ...mapGetters(["authInfo", "errorStatus", "isAuthorized"]),
     isDisabled() {
-      return this.isSubmited
-        ? true
-        : this.checkCollectionData("authInfo", "isFilled", false);
+      return this.isSubmited ? true : !(this.form.login && this.form.password);
     }
   },
   methods: {
-    sendAuthData() {
-      const authData = this.getCollectionData("authInfo", "value");
-      const [login, password] = authData;
+    async sendAuthData() {
+      this.buttonClicked({ status: true });
+      const fingerprint = await this.getFingerPrint();
+      const { login, password } = this.form;
       const formData = this.createAndFillFormData({
-        login,
-        password
+        paramsObj: { login, password, fingerprint }
       });
-      this.buttonClicked(true);
-      AXIOS.post("/login", formData).then(response => {
-        this.sendAuthDataCallback(response.data);
-      });
+      const response = await API.login({ formData });
+      this.sendAuthDataCallback({ response: response.data });
     },
-    buttonClicked(status) {
+    buttonClicked({ status }) {
       this.isSubmited = status;
       this.isLoading = status;
     },
-    sendAuthDataCallback(response) {
-      const isSuccessful = response.isAuthorized == "true";
-      this.$store.dispatch("changeAuthErrorStatus", !isSuccessful);
-      this.buttonClicked(false);
-      if (isSuccessful) {
-        const login = response.login;
-        const name = response.name;
-        const role = response.role;
-        this.authorize(login, name, role);
+    sendAuthDataCallback({ response }) {
+      const isWrong = response.accessToken == null;
+      this.$store.dispatch("changeAuthErrorStatus", isWrong);
+      this.buttonClicked({ status: false });
+      if (!isWrong) {
+        this.sendDataButtonClicked({ data: response });
       }
+    },
+    onFormChanged(e) {
+      this.form[e.fieldName] = e.value;
     }
   },
   components: {
     "auth-input": Input
   },
-  mixins: [authorize, storageHandler, formDataHandler],
+  mixins: [userMethods, storageHandler, formDataHandler, tokens, fingerprint],
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch("changeAuthErrorStatus", false);
     next(true);

@@ -81,8 +81,9 @@ import { required, sameAs, email } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import validators from "../mixins/validators.js";
 import { mapGetters } from "vuex";
-import AXIOS from "../../backend-api.js";
-import authorize from "../mixins/authorize.js";
+import API from "../../backend-api.js";
+import userMethods from "../mixins/user-data-methods";
+import tokens from "../mixins/tokens";
 import storageHandler from "../mixins/storageHandler.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 import {
@@ -91,6 +92,7 @@ import {
   isEmailUnique,
   isPassValid
 } from "./regValidators.js";
+import fingerprint from "../mixins/fingerprint";
 
 const touchMap = new WeakMap();
 
@@ -118,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["regInfo", "isAuthorized"]),
+    ...mapGetters(["isAuthorized"]),
     isDisabled() {
       return this.$v.$invalid || this.isLoading;
     },
@@ -214,16 +216,14 @@ export default {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return true;
       const { login, name, email, password } = this.form;
-      const formData = this.createAndFillFormData({
-        login,
-        name,
-        email,
-        password
+      const fingerprint = await this.getFingerPrint();
+      const regData = this.createAndFillFormData({
+        paramsObj: { login, name, email, password, fingerprint }
       });
       this.buttonClicked(true);
-      await AXIOS.post("/register", formData);
+      const response = await API.register({ regData });
       this.buttonClicked(false);
-      this.authorize(login, name);
+      this.sendDataButtonClicked({ data: response.data });
     },
     buttonClicked(status) {
       this.isLoading = status;
@@ -238,11 +238,13 @@ export default {
     }
   },
   mixins: [
-    authorize,
+    userMethods,
+    tokens,
     storageHandler,
     formDataHandler,
     validationMixin,
-    validators
+    validators,
+    fingerprint
   ]
 };
 </script>

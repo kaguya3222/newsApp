@@ -89,12 +89,13 @@
               Нет
             </v-btn>
 
-            <v-btn color="red darken-1" text @click="userExit()">
+            <v-btn color="red darken-1" text @click="exitButtonClicked()">
               Да
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <snack-bar></snack-bar>
     </v-content>
 
     <v-footer color="indigo" app>
@@ -106,8 +107,10 @@
 <script>
 import { mapGetters } from "vuex";
 
-import authorize from "../components/mixins/authorize.js";
+import userMethods from "../components/mixins/user-data-methods";
 import storageHandler from "../components/mixins/storageHandler.js";
+import tokens from "../components/mixins/tokens.js";
+import snackBar from "../components/MainLayoutSnackBar";
 
 export default {
   props: {
@@ -133,16 +136,14 @@ export default {
     }
   },
   methods: {
-    userExit() {
+    exitButtonClicked() {
       this.dialog = false;
-      this.setLocalStorageUserData({
-        login: "",
-        name: "",
-        role: ""
-      });
-      this.setUserParams("", "", "");
+      this.userExit({ path: "/" });
     }
   },
-  mixins: [authorize, storageHandler]
+  components: {
+    "snack-bar": snackBar
+  },
+  mixins: [userMethods, storageHandler, tokens]
 };
 </script>
