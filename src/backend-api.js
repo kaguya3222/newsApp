@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./plugins/axios";
 
 export default {
   async login({ formData }) {
@@ -10,8 +10,8 @@ export default {
   async createNewsCard({ newsCardData }) {
     return axios.post("/add", newsCardData);
   },
-  async deleteNewsCard({ tokenData }) {
-    axios.post(`/delete${this.newsCardData.id}`, tokenData);
+  async deleteNewsCard({ tokenData, newsCardId }) {
+    axios.post(`/delete${newsCardId}`, tokenData);
   },
   async register({ regData }) {
     return axios.post("/register", regData);
