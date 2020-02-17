@@ -27,7 +27,7 @@ export default {
         return false;
       }
       const response = await API.refreshTokens({
-        refreshTokenData: this.illRefreshTokenData()
+        refreshTokenData: this.fillRefreshTokenData()
       });
       if (response.data.status === "OK") {
         this.setTokens({
