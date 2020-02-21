@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import NewsCard from "./News/NewsCard";
+import NewsCard from "../components/News/NewsCard";
 
 import { mapGetters } from "vuex";
 

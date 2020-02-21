@@ -10,7 +10,7 @@
             <v-list-item-title>Домой</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/contact">
           <v-list-item-action>
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
@@ -107,9 +107,9 @@
 <script>
 import { mapGetters } from "vuex";
 
-import userMethods from "../components/mixins/user-data-methods";
-import storageHandler from "../components/mixins/storageHandler.js";
-import tokens from "../components/mixins/tokens.js";
+import userMethods from "../mixins/user-data-methods";
+import storageHandler from "../mixins/storageHandler.js";
+import tokens from "../mixins/tokens.js";
 import snackBar from "../components/MainLayoutSnackBar";
 
 export default {

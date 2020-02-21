@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import Input from "./Input";
+import Input from "../components/authorization/AuthorizationInput";
 
 import { mapGetters } from "vuex";
 
-import API from "../../backend-api.js";
+import API from "../backend-api.js";
 
 import userMethods from "../mixins/user-data-methods";
 import storageHandler from "../mixins/storageHandler.js";
