@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import API from "../../backend-api.js";
+import API from "../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";

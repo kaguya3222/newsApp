@@ -8,30 +8,30 @@ const routes = [
     path: "/",
     name: "Home",
     meta: { layout: "main" },
-    component: () => import("../components/Home.vue")
+    component: () => import("../pages/PageHome.vue")
   },
   {
     path: "/reg",
     name: "Reg",
     meta: { layout: "main" },
-    component: () => import("../components/registration/Reg.vue")
+    component: () => import("../pages/PageRegistration.vue")
   },
   {
     path: "/auth",
     name: "Auth",
     meta: { layout: "main" },
-    component: () => import("../components/authorization/Auth.vue")
+    component: () => import("../pages/PageAuthorization.vue")
   },
   {
     path: "/create",
     name: "Create",
     meta: { layout: "main" },
-    component: () => import("../components/News/CreateNews.vue")
+    component: () => import("../pages/PageCreateNews.vue")
   },
   {
     path: "/contact",
     name: "Contacts",
-    component: () => import("../components/contactUs/ContactUs.vue")
+    component: () => import("../pages/PageContactUs.vue")
   }
 ];
 
