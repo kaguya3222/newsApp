@@ -24,6 +24,10 @@
     </v-card-text>
     <v-card-actions class="flex-grow-2">
       <v-btn text color="indigo" @click="show = !show">Узнать больше</v-btn>
+      <news-card-like-button
+        :likesNum="likesNum"
+        :index="this.index"
+      ></news-card-like-button>
     </v-card-actions>
     <v-expand-transition>
       <div v-show="show">
@@ -61,11 +65,18 @@
 </template>
 
 <script>
+import NewsCardLikeButton from "./NewsCardLikeButton";
+
 import { mapGetters } from "vuex";
+
 import API from "../../backend-api.js";
 import formDataHandler from "../mixins/formDataHandler.js";
 import tokens from "../mixins/tokens";
+
 export default {
+  components: {
+    "news-card-like-button": NewsCardLikeButton
+  },
   data() {
     return {
       show: false,
@@ -74,13 +85,18 @@ export default {
     };
   },
   props: {
-    newsCardData: Object,
-    index: Number
+    index: {
+      required: true,
+      type: Number
+    }
   },
   computed: {
     ...mapGetters(["isAdmin", "news"]),
     date() {
       return this.newsCardData.date.slice(0, 10);
+    },
+    newsCardData() {
+      return this.news[this.index];
     },
     briefDescription() {
       return this.newsCardData.briefDescription;
@@ -97,6 +113,9 @@ export default {
           return "subtitle-1";
       }
       return "";
+    },
+    likesNum() {
+      return this.newsCardData.likesNum;
     }
   },
   methods: {
