@@ -70,8 +70,8 @@ import NewsCardLikeButton from "./NewsCardLikeButton";
 import { mapGetters } from "vuex";
 
 import API from "../../backend-api.js";
-import formDataHandler from "../mixins/formDataHandler.js";
-import tokens from "../mixins/tokens";
+import formDataHandler from "@/mixins/formDataHandler.js";
+import tokens from "@/mixins/tokens";
 
 export default {
   components: {

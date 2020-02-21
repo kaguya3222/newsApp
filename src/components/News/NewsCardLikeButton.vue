@@ -19,8 +19,8 @@
 import { mapGetters } from "vuex";
 
 import API from "@/backend-api.js";
-import formDataHandler from "../mixins/formDataHandler";
-import tokens from "../mixins/tokens";
+import formDataHandler from "@/mixins/formDataHandler";
+import tokens from "@/mixins/tokens";
 
 export default {
   props: {
