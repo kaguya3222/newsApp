@@ -54,7 +54,7 @@
 import { required } from "vuelidate/lib/validators";
 import validators from "../mixins/validators.js";
 import { validationMixin } from "vuelidate";
-import formDataHanler from "../mixins/formDataHandler";
+import formDataHandler from "../mixins/formDataHandler";
 
 export default {
   data() {
@@ -130,6 +130,6 @@ export default {
       }, 3000);
     }
   },
-  mixins: [validators, validationMixin, formDataHanler]
+  mixins: [validators, validationMixin, formDataHandler]
 };
 </script>
