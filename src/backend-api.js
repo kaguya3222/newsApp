@@ -21,5 +21,8 @@ export default {
   },
   async getNews() {
     return axios.get("/getAll");
+  },
+  async increaseLikesNum({ newsCardData }) {
+    return axios.post("/inc", newsCardData);
   }
 };
