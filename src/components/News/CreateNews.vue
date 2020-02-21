@@ -90,7 +90,8 @@ export default {
               date: response.data.date,
               fullDescription: response.data.full_description,
               id: response.data.id,
-              title: response.data.title
+              title: response.data.title,
+              likesNum: 0
             }
           ]);
         });
