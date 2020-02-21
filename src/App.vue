@@ -7,7 +7,7 @@
 <script>
 import MainLayout from "./views/MainLayout";
 import { mapGetters } from "vuex";
-import userMethods from "./components/mixins/user-data-methods";
+import userMethods from "./mixins/user-data-methods";
 
 import API from "./backend-api.js";
 
