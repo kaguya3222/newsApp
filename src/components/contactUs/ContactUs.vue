@@ -117,14 +117,14 @@ export default {
     async sendWish() {
       this.$v.form.$touch();
       if (this.$v.form.$invalid) return true;
-      const wishData = this.createAndFillFormData({
-        paramsObj: { ...this.form }
+      const wishes = this.createAndFillFormData({
+        paramsObj: this.form
       });
       this.isSending = true;
 
       //AJAX-request should be here instead of setTimeout function
       setTimeout(() => {
-        console.log(wishData + " is sended!");
+        console.log(wishes + " is sended!");
         this.isSending = false;
         this.isSubmitted = true;
       }, 3000);
