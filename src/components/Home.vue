@@ -8,7 +8,6 @@
     <app-news-card
       v-for="(newsCard, index) in news"
       :key="newsCard.id"
-      :newsCardData="newsCard"
       :index="index"
     ></app-news-card>
   </transition-group>
