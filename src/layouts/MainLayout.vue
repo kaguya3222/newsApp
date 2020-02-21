@@ -107,9 +107,9 @@
 <script>
 import { mapGetters } from "vuex";
 
-import userMethods from "../components/mixins/user-data-methods";
-import storageHandler from "../components/mixins/storageHandler.js";
-import tokens from "../components/mixins/tokens.js";
+import userMethods from "../mixins/user-data-methods";
+import storageHandler from "../mixins/storageHandler.js";
+import tokens from "../mixins/tokens.js";
 import snackBar from "../components/MainLayoutSnackBar";
 
 export default {

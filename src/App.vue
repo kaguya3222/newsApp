@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MainLayout from "./views/MainLayout";
+import MainLayout from "./layouts/MainLayout";
 import { mapGetters } from "vuex";
 import userMethods from "./mixins/user-data-methods";
 
