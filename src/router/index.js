@@ -27,6 +27,11 @@ const routes = [
     name: "Create",
     meta: { layout: "main" },
     component: () => import("../components/News/CreateNews.vue")
+  },
+  {
+    path: "/contact",
+    name: "Contacts",
+    component: () => import("../components/contactUs/ContactUs.vue")
   }
 ];
 
