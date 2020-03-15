@@ -1,4 +1,4 @@
-import API from "../../backend-api";
+import API from "../backend-api";
 
 export async function isLoginUnique(value) {
   if (value === null) return true;

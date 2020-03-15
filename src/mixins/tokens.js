@@ -1,4 +1,4 @@
-import API from "../../backend-api";
+import API from "../backend-api";
 import userDataMethods from "./user-data-methods";
 import formDataHandler from "./formDataHandler";
 import { mapActions } from "vuex";
@@ -26,8 +26,9 @@ export default {
         this.userExit({ path: "/auth" });
         return false;
       }
+      const refreshTokenData = await this.fillRefreshTokenData();
       const response = await API.refreshTokens({
-        refreshTokenData: this.fillRefreshTokenData()
+        refreshTokenData
       });
       if (response.data.status === "OK") {
         this.setTokens({
@@ -45,6 +46,7 @@ export default {
     },
     async fillRefreshTokenData() {
       const fingerprint = await this.getFingerPrint();
+      console.log(fingerprint);
       return this.createAndFillFormData({
         paramsObj: {
           refreshToken: localStorage.getItem("REFRESH_TOKEN"),

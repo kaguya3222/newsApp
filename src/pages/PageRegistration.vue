@@ -81,7 +81,7 @@ import { required, sameAs, email } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import validators from "../mixins/validators.js";
 import { mapGetters } from "vuex";
-import API from "../../backend-api.js";
+import API from "../backend-api.js";
 import userMethods from "../mixins/user-data-methods";
 import tokens from "../mixins/tokens";
 import storageHandler from "../mixins/storageHandler.js";
@@ -91,7 +91,7 @@ import {
   isLoginValid,
   isEmailUnique,
   isPassValid
-} from "./regValidators.js";
+} from "../helpers/registrationValidationHelpers.js";
 import fingerprint from "../mixins/fingerprint";
 
 const touchMap = new WeakMap();

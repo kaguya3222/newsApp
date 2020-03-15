@@ -15,6 +15,9 @@ export default {
     },
     deleteNewsMutation(state, payLoad) {
       state.news.splice(payLoad, 1);
+    },
+    mutateLikesNum(state, { payLoad }) {
+      state.news[payLoad.index].likesNum += payLoad.number;
     }
   },
   actions: {
@@ -23,6 +26,9 @@ export default {
     },
     deleteNews(store, payLoad) {
       store.commit("deleteNewsMutation", payLoad);
+    },
+    changeLikesNum(store, { payLoad }) {
+      store.commit("mutateLikesNum", { payLoad });
     }
   }
 };

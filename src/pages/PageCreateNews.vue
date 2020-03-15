@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import API from "../../backend-api.js";
+import API from "../backend-api.js";
 
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
@@ -90,7 +90,8 @@ export default {
               date: response.data.date,
               fullDescription: response.data.full_description,
               id: response.data.id,
-              title: response.data.title
+              title: response.data.title,
+              likesNum: 0
             }
           ]);
         });

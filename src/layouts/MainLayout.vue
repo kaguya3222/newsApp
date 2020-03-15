@@ -10,9 +10,9 @@
             <v-list-item-title>Домой</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/contact">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-email</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Связаться с нами</v-list-item-title>
@@ -107,9 +107,9 @@
 <script>
 import { mapGetters } from "vuex";
 
-import userMethods from "../components/mixins/user-data-methods";
-import storageHandler from "../components/mixins/storageHandler.js";
-import tokens from "../components/mixins/tokens.js";
+import userMethods from "../mixins/user-data-methods";
+import storageHandler from "../mixins/storageHandler.js";
+import tokens from "../mixins/tokens.js";
 import snackBar from "../components/MainLayoutSnackBar";
 
 export default {
@@ -131,7 +131,7 @@ export default {
     ]),
     filteredOptions() {
       return this.adminMenuOptions.filter(() => {
-        return this.isAdmin ? true : false;
+        return !!this.isAdmin;
       });
     }
   },

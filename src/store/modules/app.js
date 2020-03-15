@@ -2,11 +2,7 @@ import Vue from "vue";
 
 export default {
   state: {
-    userParams: {
-      login: null,
-      name: null,
-      role: null
-    }
+    userParams: {}
   },
   getters: {
     login(state) {
@@ -18,16 +14,19 @@ export default {
     role(state) {
       return state.userParams.role;
     },
+    likedNewsIds(state) {
+      return state.userParams.likedNewsIds;
+    },
     isAuthorized(state) {
-      return state.userParams.login === null ? false : true;
+      return !!state.userParams.login;
     },
     isAdmin(state) {
       return state.userParams.role === "ADMIN";
     }
   },
   mutations: {
-    mutateUserParams(state, payLoad) {
-      for (const property in state.userParams) {
+    mutateUserParams: function(state, payLoad) {
+      for (const property in payLoad) {
         Vue.set(state.userParams, property, payLoad[property]);
       }
     }

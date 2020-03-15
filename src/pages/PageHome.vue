@@ -8,14 +8,13 @@
     <app-news-card
       v-for="(newsCard, index) in news"
       :key="newsCard.id"
-      :newsCardData="newsCard"
       :index="index"
     ></app-news-card>
   </transition-group>
 </template>
 
 <script>
-import NewsCard from "./News/NewsCard";
+import NewsCard from "../components/News/NewsCard";
 
 import { mapGetters } from "vuex";
 
