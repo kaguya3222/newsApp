@@ -46,7 +46,6 @@ export default {
     },
     async fillRefreshTokenData() {
       const fingerprint = await this.getFingerPrint();
-      console.log(fingerprint);
       return this.createAndFillFormData({
         paramsObj: {
           refreshToken: localStorage.getItem("REFRESH_TOKEN"),
