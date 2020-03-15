@@ -12,7 +12,7 @@
         </v-list-item>
         <v-list-item link to="/contact">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-email</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Связаться с нами</v-list-item-title>
@@ -131,7 +131,7 @@ export default {
     ]),
     filteredOptions() {
       return this.adminMenuOptions.filter(() => {
-        return this.isAdmin ? true : false;
+        return !!this.isAdmin;
       });
     }
   },

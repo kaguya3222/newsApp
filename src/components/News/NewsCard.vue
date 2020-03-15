@@ -25,7 +25,7 @@
     <v-card-actions class="flex-grow-2">
       <v-btn text color="indigo" @click="show = !show">Узнать больше</v-btn>
       <news-card-like-button
-        :likesNum="likesNum"
+        v-if="isAuthorized"
         :index="this.index"
       ></news-card-like-button>
     </v-card-actions>
@@ -91,7 +91,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAdmin", "news"]),
+    ...mapGetters(["isAdmin", "news", "isAuthorized"]),
     date() {
       return this.newsCardData.date.slice(0, 10);
     },
@@ -113,9 +113,6 @@ export default {
           return "subtitle-1";
       }
       return "";
-    },
-    likesNum() {
-      return this.newsCardData.likesNum;
     }
   },
   methods: {

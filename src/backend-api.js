@@ -1,6 +1,9 @@
 import axios from "./plugins/axios";
 
 export default {
+  async getUserInfo({ formData }) {
+    return axios.post("/getUserInfo", formData);
+  },
   async login({ formData }) {
     return axios.post("/login", formData);
   },
@@ -24,5 +27,8 @@ export default {
   },
   async increaseLikesNum({ newsCardData }) {
     return axios.post("/inc", newsCardData);
+  },
+  async reduceLikesNum({ newsCardData }) {
+    return axios.post("/dec", newsCardData);
   }
 };
