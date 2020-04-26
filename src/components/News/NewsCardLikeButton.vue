@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-auto" v-if="isAuthorized">
+  <div class="ml-auto">
     <v-tooltip top>
       <template v-slot:activator="{ on }">
         <v-btn icon color="indigo">
