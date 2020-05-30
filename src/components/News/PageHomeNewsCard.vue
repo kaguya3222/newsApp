@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import NewsCardLikeButton from "./NewsCardLikeButton";
+import NewsCardLikeButton from "./PageHomeNewsCardLikeButton";
 
 import { mapGetters } from "vuex";
 

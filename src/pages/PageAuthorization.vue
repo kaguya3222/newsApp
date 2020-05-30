@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Input from "../components/authorization/AuthorizationInput";
+import AuthorizationInput from "../components/authorization/PageAuthorizationInput";
 
 import { mapGetters } from "vuex";
 
@@ -92,7 +92,7 @@ export default {
     }
   },
   components: {
-    "auth-input": Input
+    "auth-input": AuthorizationInput
   },
   mixins: [userMethods, storageHandler, formDataHandler, tokens, fingerprint],
   beforeRouteLeave(to, from, next) {

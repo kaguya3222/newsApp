@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import NewsCard from "../components/News/NewsCard";
+import NewsCard from "../components/News/PageHomeNewsCard";
 
 import { mapGetters } from "vuex";
 
